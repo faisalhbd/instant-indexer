@@ -1,0 +1,1659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Instant Indexer — Google Index Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #07080d;
+    --bg2: #0c0e17;
+    --surface: #10121e;
+    --surface2: #161926;
+    --surface3: #1d2133;
+    --border: #252840;
+    --border2: #2e3350;
+    --accent: #5d7cff;
+    --accent-glow: rgba(93,124,255,0.25);
+    --accent2: #00e5a0;
+    --accent2-glow: rgba(0,229,160,0.2);
+    --warn: #ffc94a;
+    --danger: #ff4f6d;
+    --danger-glow: rgba(255,79,109,0.2);
+    --text: #dde2f5;
+    --text2: #8892b4;
+    --muted: #4a5070;
+    --radius: 12px;
+    --radius-sm: 8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    min-height: 100vh;
+    padding: 28px 24px 60px;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Ambient background effects */
+  body::before {
+    content: '';
+    position: fixed;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(93,124,255,0.06) 0%, transparent 70%);
+    top: -200px; left: -100px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, rgba(0,229,160,0.04) 0%, transparent 70%);
+    bottom: -100px; right: -50px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Noise texture overlay */
+  .noise {
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 1160px;
+    margin: 0 auto;
+  }
+
+  /* ===================== HEADER ===================== */
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-icon {
+    width: 46px; height: 46px;
+    background: linear-gradient(135deg, var(--accent), #a78bff);
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 0 30px rgba(93,124,255,0.35), inset 0 1px 0 rgba(255,255,255,0.15);
+    position: relative;
+  }
+
+  .logo-icon::after {
+    content: '';
+    position: absolute;
+    inset: -1px;
+    border-radius: 15px;
+    background: linear-gradient(135deg, rgba(255,255,255,0.15), transparent);
+    pointer-events: none;
+  }
+
+  .logo-text h1 {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.6px;
+    color: var(--text);
+  }
+
+  .logo-text h1 span {
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .logo-text .tagline {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin-top: 2px;
+    letter-spacing: 0.5px;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text2);
+  }
+
+  .status-dot {
+    width: 7px; height: 7px;
+    background: var(--accent2);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent2);
+    animation: pulse-dot 2s ease infinite;
+  }
+
+  @keyframes pulse-dot {
+    0%,100% { opacity: 1; box-shadow: 0 0 8px var(--accent2); }
+    50% { opacity: 0.6; box-shadow: 0 0 14px var(--accent2); }
+  }
+
+  .clock-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    color: var(--text2);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 8px 16px;
+    letter-spacing: 1px;
+  }
+
+  /* ===================== STATS ===================== */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--border2);
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    opacity: 0.8;
+  }
+
+  .stat-card.green::before { background: linear-gradient(90deg, transparent, var(--accent2), transparent); }
+  .stat-card.blue::before { background: linear-gradient(90deg, transparent, var(--accent), transparent); }
+  .stat-card.warn::before { background: linear-gradient(90deg, transparent, var(--warn), transparent); }
+  .stat-card.danger::before { background: linear-gradient(90deg, transparent, var(--danger), transparent); }
+
+  .stat-card-bg {
+    position: absolute;
+    top: -10px; right: -10px;
+    font-size: 52px;
+    opacity: 0.04;
+    pointer-events: none;
+    filter: blur(1px);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    margin-bottom: 10px;
+    font-family: 'DM Mono', monospace;
+    font-weight: 500;
+  }
+
+  .stat-value {
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1;
+  }
+
+  .stat-card.green .stat-value { color: var(--accent2); }
+  .stat-card.blue .stat-value { color: var(--accent); }
+  .stat-card.warn .stat-value { color: var(--warn); }
+  .stat-card.danger .stat-value { color: var(--danger); }
+
+  .stat-sub {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 6px;
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ===================== MAIN GRID ===================== */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  /* ===================== PANEL ===================== */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .panel:hover { border-color: var(--border2); }
+
+  .panel-header {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(180deg, var(--surface2), var(--surface));
+  }
+
+  .panel-title {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .panel-title-icon {
+    width: 22px; height: 22px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+
+  .panel-title-icon.blue { background: rgba(93,124,255,0.15); }
+  .panel-title-icon.green { background: rgba(0,229,160,0.12); }
+
+  .panel-badge {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--muted);
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 3px 10px;
+  }
+
+  .panel-body { padding: 20px; }
+
+  /* ===================== KEY MANAGER ===================== */
+  .key-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+
+  .key-item {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    padding: 12px 14px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .key-item::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: var(--muted);
+    transition: background 0.2s;
+  }
+
+  .key-item:hover { border-color: var(--accent); background: var(--surface3); }
+  .key-item:hover::before { background: var(--accent); }
+
+  .key-item.active { border-color: var(--accent); background: rgba(93,124,255,0.06); }
+  .key-item.active::before { background: var(--accent); box-shadow: 0 0 8px var(--accent); }
+
+  .key-item-left { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
+
+  .key-status-icon {
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .key-status-icon.active-key {
+    background: rgba(0,229,160,0.1);
+    border-color: rgba(0,229,160,0.3);
+  }
+
+  .key-info { min-width: 0; flex: 1; }
+
+  .key-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: var(--text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .key-email {
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .quota-bar-wrap { margin-top: 6px; }
+
+  .quota-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+    width: 130px;
+  }
+
+  .quota-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .quota-fill.warn { background: var(--warn); }
+  .quota-fill.danger { background: var(--danger); }
+
+  .key-quota {
+    text-align: right;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 4px;
+  }
+
+  .key-quota-num {
+    font-weight: 700;
+    font-size: 15px;
+    color: var(--accent2);
+    line-height: 1;
+  }
+
+  .key-quota-label { color: var(--muted); font-size: 9px; letter-spacing: 0.5px; text-transform: uppercase; }
+
+  .btn-remove {
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 12px;
+    padding: 3px 8px;
+    transition: all 0.2s;
+    font-family: 'DM Mono', monospace;
+  }
+
+  .btn-remove:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-glow); }
+
+  /* ===================== UPLOAD ZONE ===================== */
+  .upload-zone {
+    border: 1.5px dashed var(--border2);
+    border-radius: var(--radius-sm);
+    padding: 22px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.25s;
+    position: relative;
+    background: linear-gradient(135deg, rgba(93,124,255,0.02), rgba(0,229,160,0.02));
+  }
+
+  .upload-zone:hover {
+    border-color: var(--accent);
+    background: rgba(93,124,255,0.05);
+  }
+
+  .upload-zone input {
+    position: absolute; inset: 0;
+    opacity: 0; cursor: pointer;
+    width: 100%; height: 100%;
+  }
+
+  .upload-icon {
+    width: 36px; height: 36px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    margin: 0 auto 10px;
+  }
+
+  .upload-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .upload-text strong { color: var(--accent); }
+  .upload-text .hint { font-size: 10px; color: var(--muted); margin-top: 3px; font-family: 'DM Mono', monospace; }
+
+  /* ===================== URL SECTION ===================== */
+  .url-section { display: flex; flex-direction: column; gap: 14px; }
+
+  textarea {
+    width: 100%;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 14px;
+    resize: vertical;
+    min-height: 150px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+    line-height: 1.7;
+  }
+
+  textarea:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(93,124,255,0.1);
+  }
+
+  textarea::placeholder { color: var(--muted); }
+
+  .url-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  .url-count-wrap {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .url-count {
+    background: rgba(93,124,255,0.15);
+    color: var(--accent);
+    border-radius: 100px;
+    padding: 2px 10px;
+    font-weight: 600;
+    font-size: 12px;
+  }
+
+  /* ===================== BUTTONS ===================== */
+  .btn {
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    padding: 10px 18px;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--accent), #7c6aff);
+    color: #fff;
+    width: 100%;
+    font-size: 14px;
+    padding: 15px;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 20px rgba(93,124,255,0.3);
+    border-radius: 10px;
+    font-weight: 700;
+  }
+
+  .btn-primary:hover {
+    background: linear-gradient(135deg, #6d8cff, #9278ff);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(93,124,255,0.4);
+  }
+
+  .btn-primary:active { transform: translateY(0); }
+
+  .btn-primary:disabled {
+    background: var(--surface3);
+    color: var(--muted);
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn-secondary {
+    background: var(--surface2);
+    color: var(--text2);
+    border: 1px solid var(--border);
+    font-size: 11px;
+    padding: 7px 14px;
+    border-radius: 7px;
+  }
+
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); background: rgba(93,124,255,0.06); }
+
+  /* ===================== SELECT ===================== */
+  .select-wrap {
+    position: relative;
+    flex: 1;
+  }
+
+  .select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--muted);
+    font-size: 12px;
+    pointer-events: none;
+  }
+
+  .select-input {
+    width: 100%;
+    appearance: none;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 13px;
+    padding: 10px 36px 10px 14px;
+    outline: none;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+
+  .select-input:focus { border-color: var(--accent); }
+
+  .options-row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* ===================== PROGRESS ===================== */
+  .progress-section { display: none; }
+  .progress-section.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .progress-label {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .progress-label span { color: var(--accent2); font-weight: 600; }
+
+  .progress-bar-wrap {
+    background: var(--surface3);
+    border-radius: 100px;
+    height: 6px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    border-radius: 100px;
+    transition: width 0.3s ease;
+    width: 0%;
+    position: relative;
+  }
+
+  .progress-bar-fill::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 0; bottom: 0;
+    width: 30px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.25));
+    animation: shimmer 1s infinite;
+  }
+
+  @keyframes shimmer {
+    0% { opacity: 0; } 50% { opacity: 1; } 100% { opacity: 0; }
+  }
+
+  /* ===================== TOGGLE ===================== */
+  .auto-rotate-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+    user-select: none;
+    margin-top: 14px;
+  }
+
+  .auto-rotate-row:hover { color: var(--text); }
+
+  .toggle {
+    width: 36px; height: 20px;
+    background: var(--surface3);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    position: relative;
+    transition: all 0.25s;
+    flex-shrink: 0;
+  }
+
+  .toggle.on {
+    background: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 0 12px rgba(93,124,255,0.4);
+  }
+
+  .toggle::after {
+    content: '';
+    position: absolute;
+    width: 14px; height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    top: 2px; left: 2px;
+    transition: transform 0.25s;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  }
+
+  .toggle.on::after { transform: translateX(16px); }
+
+  /* ===================== SPINNER ===================== */
+  .spinner {
+    width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.2);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.65s linear infinite;
+    display: none;
+  }
+
+  .btn-primary.loading .spinner { display: block; }
+  .btn-primary.loading .btn-text { display: none; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ===================== TABS ===================== */
+  .tab-bar {
+    display: flex;
+    gap: 4px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+
+  .tab-btn {
+    background: none;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 6px 16px;
+    font-weight: 500;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+  }
+
+  .tab-btn:hover { color: var(--text2); }
+
+  .tab-btn.active {
+    background: var(--surface3);
+    border-color: var(--border2);
+    color: var(--accent);
+  }
+
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+
+  /* ===================== LOG ===================== */
+  .log-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-height: 460px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+
+  .log-list::-webkit-scrollbar { width: 4px; }
+  .log-list::-webkit-scrollbar-track { background: transparent; }
+  .log-list::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .log-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--surface2);
+    border-radius: 8px;
+    border-left: 2px solid transparent;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    animation: fadeIn 0.25s ease;
+    transition: background 0.15s;
+  }
+
+  .log-item:hover { background: var(--surface3); }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .log-item.success { border-left-color: var(--accent2); }
+  .log-item.error { border-left-color: var(--danger); }
+  .log-item.pending { border-left-color: var(--warn); }
+
+  .log-status { font-size: 13px; flex-shrink: 0; }
+
+  .log-url {
+    flex: 1;
+    color: var(--text2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .log-time { color: var(--muted); flex-shrink: 0; font-size: 10px; }
+
+  .log-badge {
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 100px;
+    font-weight: 600;
+    flex-shrink: 0;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .log-badge.success { background: rgba(0,229,160,0.12); color: var(--accent2); }
+  .log-badge.error { background: rgba(255,79,109,0.12); color: var(--danger); }
+  .log-badge.pending { background: rgba(255,201,74,0.1); color: var(--warn); }
+
+  /* ===================== HISTORY FILTERS ===================== */
+  .history-filters {
+    display: flex;
+    gap: 6px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    align-items: center;
+  }
+
+  .filter-btn {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 5px 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  .filter-btn:hover, .filter-btn.active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(93,124,255,0.08);
+  }
+
+  .clear-btn {
+    margin-left: auto;
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    padding: 5px 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+    letter-spacing: 0.5px;
+  }
+
+  .clear-btn:hover { border-color: var(--danger); color: var(--danger); }
+
+  /* ===================== EMPTY STATE ===================== */
+  .empty-state {
+    text-align: center;
+    padding: 48px 24px;
+    color: var(--muted);
+  }
+
+  .empty-state .empty-icon {
+    font-size: 34px;
+    margin-bottom: 12px;
+    filter: grayscale(0.3);
+  }
+
+  .empty-state p { font-size: 13px; color: var(--muted); }
+
+  /* ===================== TOAST ===================== */
+  .toast {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--surface2);
+    border: 1px solid var(--border2);
+    border-radius: 12px;
+    padding: 14px 20px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: translateY(90px);
+    opacity: 0;
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 1000;
+    max-width: 380px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    backdrop-filter: blur(10px);
+  }
+
+  .toast.show { transform: translateY(0); opacity: 1; }
+  .toast.success { border-left: 2px solid var(--accent2); }
+  .toast.error { border-left: 2px solid var(--danger); }
+  .toast.info { border-left: 2px solid var(--accent); }
+
+  /* ===================== DIVIDER ===================== */
+  .section-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 4px 0;
+  }
+
+  /* ===================== FOOTER ===================== */
+  .footer {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dev-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 6px 14px;
+    font-size: 12px;
+    color: var(--text2);
+    font-family: 'DM Mono', monospace;
+    transition: all 0.2s;
+  }
+
+  .dev-badge:hover {
+    border-color: var(--accent);
+    color: var(--text);
+  }
+
+  .dev-badge .dev-icon {
+    width: 22px; height: 22px;
+    background: linear-gradient(135deg, var(--accent), #a78bff);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+
+  .dev-name {
+    font-weight: 600;
+    background: linear-gradient(90deg, var(--accent), var(--accent2));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 13px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+
+  .footer-right {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: 'DM Mono', monospace;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .footer-tag {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 100px;
+    padding: 4px 12px;
+    font-size: 10px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+
+  /* ===================== RESPONSIVE ===================== */
+  @media (max-width: 860px) {
+    .main-grid { grid-template-columns: 1fr; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .header { flex-wrap: wrap; gap: 12px; }
+    .header-right { gap: 8px; }
+  }
+
+  @media (max-width: 480px) {
+    body { padding: 16px 14px 60px; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .stat-value { font-size: 26px; }
+    .footer { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="logo">
+      <div class="logo-icon">⚡</div>
+      <div class="logo-text">
+        <h1>Instant <span>Indexer</span></h1>
+        <div class="tagline">Google Indexing API Dashboard · v2.0</div>
+      </div>
+    </div>
+    <div class="header-right">
+      <div class="status-pill">
+        <div class="status-dot"></div>
+        <span>API Ready</span>
+      </div>
+      <div class="clock-badge" id="currentTime">—</div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-bar">
+    <div class="stat-card green">
+      <div class="stat-card-bg">📤</div>
+      <div class="stat-label">Total Submitted</div>
+      <div class="stat-value" id="statTotal">0</div>
+      <div class="stat-sub">all time</div>
+    </div>
+    <div class="stat-card blue">
+      <div class="stat-card-bg">✅</div>
+      <div class="stat-label">Successful</div>
+      <div class="stat-value" id="statSuccess">0</div>
+      <div class="stat-sub">indexed</div>
+    </div>
+    <div class="stat-card danger">
+      <div class="stat-card-bg">❌</div>
+      <div class="stat-label">Failed</div>
+      <div class="stat-value" id="statFailed">0</div>
+      <div class="stat-sub">errors</div>
+    </div>
+    <div class="stat-card warn">
+      <div class="stat-card-bg">📊</div>
+      <div class="stat-label">Quota Used</div>
+      <div class="stat-value" id="statQuota">0</div>
+      <div class="stat-sub">resets at midnight</div>
+    </div>
+  </div>
+
+  <!-- Main Grid -->
+  <div class="main-grid">
+
+    <!-- Left Column -->
+    <div style="display:flex;flex-direction:column;gap:16px;">
+
+      <!-- Key Manager Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <div class="panel-title-icon blue">🔑</div>
+            JSON Key Manager
+          </div>
+          <span class="panel-badge" id="keyCount">0 keys</span>
+        </div>
+        <div class="panel-body">
+          <div class="key-list" id="keyList">
+            <div class="empty-state" style="padding:20px 16px;">
+              <div class="empty-icon">🔐</div>
+              <p>No service account keys added yet</p>
+            </div>
+          </div>
+          <div class="section-divider" style="margin-bottom:14px;"></div>
+          <div class="upload-zone" id="uploadZone">
+            <input type="file" id="jsonFileInput" accept=".json" multiple>
+            <div class="upload-icon">📂</div>
+            <div class="upload-text">
+              <strong>Click to upload</strong> JSON key file<br>
+              <span class="hint">Supports multiple files · service account JSON only</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submit Panel -->
+      <div class="panel">
+        <div class="panel-header">
+          <div class="panel-title">
+            <div class="panel-title-icon green">🚀</div>
+            Submit URLs
+          </div>
+        </div>
+        <div class="panel-body url-section">
+
+          <div class="options-row">
+            <div class="select-wrap">
+              <select class="select-input" id="actionType">
+                <option value="URL_UPDATED">URL_UPDATED — Index / Re-index</option>
+                <option value="URL_DELETED">URL_DELETED — Remove from Index</option>
+              </select>
+            </div>
+          </div>
+
+          <textarea id="urlInput" placeholder="https://site1.blogspot.com/&#10;https://site2.blogspot.com/&#10;https://site3.blogspot.com/&#10;&#10;One URL per line..."></textarea>
+
+          <div class="url-meta">
+            <div class="url-count-wrap">
+              URLs detected: <span class="url-count" id="urlCount">0</span>
+            </div>
+            <button class="btn btn-secondary" onclick="clearUrls()">Clear all</button>
+          </div>
+
+          <!-- Progress -->
+          <div class="progress-section" id="progressSection">
+            <div class="progress-label">
+              <span id="progressLabel">Submitting...</span>
+              <span id="progressPct">0%</span>
+            </div>
+            <div class="progress-bar-wrap">
+              <div class="progress-bar-fill" id="progressFill"></div>
+            </div>
+          </div>
+
+          <!-- Auto Rotate Toggle -->
+          <div class="auto-rotate-row" onclick="toggleAutoRotate()">
+            <div class="toggle on" id="rotateToggle"></div>
+            <span>Auto key rotation</span>
+          </div>
+
+          <div style="margin-top:14px;">
+            <button class="btn btn-primary" id="submitBtn" onclick="startSubmit()">
+              <div class="spinner"></div>
+              <span class="btn-text">⚡ Submit All URLs</span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Logs -->
+    <div class="panel" style="min-height:520px;">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab('live', this)">Live Log</button>
+        <button class="tab-btn" onclick="switchTab('history', this)">History</button>
+      </div>
+
+      <!-- Live Tab -->
+      <div class="tab-content active" id="tab-live">
+        <div class="panel-body" style="padding:16px;">
+          <div class="log-list" id="liveLog">
+            <div class="empty-state">
+              <div class="empty-icon">📡</div>
+              <p>Waiting for submissions…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- History Tab -->
+      <div class="tab-content" id="tab-history">
+        <div class="history-filters">
+          <button class="filter-btn active" onclick="filterHistory('all', this)">All</button>
+          <button class="filter-btn" onclick="filterHistory('success', this)">Success</button>
+          <button class="filter-btn" onclick="filterHistory('error', this)">Failed</button>
+          <button class="clear-btn" onclick="clearHistory()">🗑 Clear</button>
+        </div>
+        <div class="panel-body" style="padding:16px;">
+          <div class="log-list" id="historyLog">
+            <div class="empty-state">
+              <div class="empty-icon">📋</div>
+              <p>No history yet</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="footer-left">
+      <div class="dev-badge">
+        <div class="dev-icon">👨‍💻</div>
+        <span style="color:var(--muted);font-size:11px;">Built by</span>
+        <span class="dev-name">Faisal Hossain</span>
+      </div>
+    </div>
+    <div class="footer-right">
+      <span class="footer-tag">Pure HTML · No Backend</span>
+      <span style="color:var(--muted);">Google Indexing API v3</span>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ============================================================
+// STATE
+// ============================================================
+let keys = [];
+let activeKeyIndex = 0;
+let autoRotate = true;
+let history = [];
+let isRunning = false;
+let stats = { total: 0, success: 0, failed: 0, quota: 0 };
+let historyFilter = 'all';
+
+function loadState() {
+  try {
+    const s = localStorage.getItem('indexer_stats');
+    if (s) stats = JSON.parse(s);
+    const h = localStorage.getItem('indexer_history');
+    if (h) history = JSON.parse(h);
+    const k = localStorage.getItem('indexer_keys_meta');
+    if (k) {
+      const meta = JSON.parse(k);
+      keys = meta.map(m => ({ ...m, keyData: null }));
+    }
+    const today = new Date().toDateString();
+    const lastDay = localStorage.getItem('indexer_last_day');
+    if (lastDay !== today) {
+      stats.quota = 0;
+      keys.forEach(k => k.used = 0);
+      localStorage.setItem('indexer_last_day', today);
+    }
+  } catch(e) {}
+}
+
+function saveState() {
+  localStorage.setItem('indexer_stats', JSON.stringify(stats));
+  localStorage.setItem('indexer_history', JSON.stringify(history.slice(-500)));
+  const meta = keys.map(k => ({ name: k.name, email: k.email, used: k.used, quota: k.quota }));
+  localStorage.setItem('indexer_keys_meta', JSON.stringify(meta));
+}
+
+// ============================================================
+// INIT
+// ============================================================
+loadState();
+updateStats();
+renderKeys();
+renderHistory();
+updateClock();
+setInterval(updateClock, 1000);
+
+document.getElementById('urlInput').addEventListener('input', updateUrlCount);
+document.getElementById('jsonFileInput').addEventListener('change', handleFileUpload);
+
+function updateClock() {
+  const now = new Date();
+  document.getElementById('currentTime').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+}
+
+// ============================================================
+// KEY MANAGER
+// ============================================================
+async function handleFileUpload(e) {
+  const files = Array.from(e.target.files);
+  for (const file of files) {
+    try {
+      const text = await file.text();
+      const json = JSON.parse(text);
+      if (!json.private_key || !json.client_email) {
+        showToast('❌ Invalid JSON key: ' + file.name, 'error');
+        continue;
+      }
+      if (keys.find(k => k.email === json.client_email)) {
+        showToast('⚠️ Key already added: ' + json.client_email, 'error');
+        continue;
+      }
+      const key = {
+        name: json.project_id || file.name.replace('.json',''),
+        email: json.client_email,
+        keyData: json,
+        used: 0,
+        quota: 200
+      };
+      keys.push(key);
+      showToast('✅ Key added: ' + key.name, 'success');
+    } catch(err) {
+      showToast('❌ Failed to parse: ' + file.name, 'error');
+    }
+  }
+  renderKeys();
+  saveState();
+  e.target.value = '';
+}
+
+function renderKeys() {
+  const list = document.getElementById('keyList');
+  document.getElementById('keyCount').textContent = keys.length + ' key' + (keys.length !== 1 ? 's' : '');
+
+  if (keys.length === 0) {
+    list.innerHTML = `<div class="empty-state" style="padding:20px 16px;"><div class="empty-icon">🔐</div><p>No keys added yet</p></div>`;
+    return;
+  }
+
+  list.innerHTML = keys.map((k, i) => {
+    const pct = (k.used / k.quota) * 100;
+    const fillClass = pct > 90 ? 'danger' : pct > 70 ? 'warn' : '';
+    const remaining = k.quota - k.used;
+    const isActive = i === activeKeyIndex;
+    return `
+    <div class="key-item ${isActive ? 'active' : ''}" onclick="setActiveKey(${i})">
+      <div class="key-item-left">
+        <div class="key-status-icon ${k.keyData ? 'active-key' : ''}">${k.keyData ? '🟢' : '⚪'}</div>
+        <div class="key-info">
+          <div class="key-name">${k.name}</div>
+          <div class="key-email">${k.email}</div>
+          <div class="quota-bar-wrap">
+            <div class="quota-bar">
+              <div class="quota-fill ${fillClass}" style="width:${pct}%"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="key-quota">
+        <div class="key-quota-num">${remaining}</div>
+        <div class="key-quota-label">left today</div>
+        <button class="btn-remove" onclick="removeKey(event,${i})">✕ remove</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function setActiveKey(i) {
+  activeKeyIndex = i;
+  renderKeys();
+}
+
+function removeKey(e, i) {
+  e.stopPropagation();
+  keys.splice(i, 1);
+  if (activeKeyIndex >= keys.length) activeKeyIndex = Math.max(0, keys.length - 1);
+  renderKeys();
+  saveState();
+  showToast('🗑 Key removed', 'info');
+}
+
+function toggleAutoRotate() {
+  autoRotate = !autoRotate;
+  document.getElementById('rotateToggle').className = 'toggle ' + (autoRotate ? 'on' : '');
+}
+
+document.getElementById('rotateToggle').className = 'toggle ' + (autoRotate ? 'on' : '');
+
+// ============================================================
+// URL COUNT
+// ============================================================
+function updateUrlCount() {
+  const urls = getUrls();
+  document.getElementById('urlCount').textContent = urls.length;
+}
+
+function getUrls() {
+  return document.getElementById('urlInput').value
+    .split('\n')
+    .map(u => u.trim())
+    .filter(u => u.startsWith('http'));
+}
+
+function clearUrls() {
+  document.getElementById('urlInput').value = '';
+  updateUrlCount();
+}
+
+// ============================================================
+// GOOGLE INDEXING API
+// ============================================================
+async function getAccessToken(keyData) {
+  const header = btoa(JSON.stringify({ alg: 'RS256', typ: 'JWT' })).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+  const now = Math.floor(Date.now() / 1000);
+  const claim = btoa(JSON.stringify({
+    iss: keyData.client_email,
+    scope: 'https://www.googleapis.com/auth/indexing',
+    aud: 'https://oauth2.googleapis.com/token',
+    exp: now + 3600,
+    iat: now
+  })).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+
+  const unsigned = header + '.' + claim;
+
+  const pemContents = keyData.private_key
+    .replace('-----BEGIN PRIVATE KEY-----', '')
+    .replace('-----END PRIVATE KEY-----', '')
+    .replace(/\s/g, '');
+
+  const binaryDer = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
+
+  const cryptoKey = await crypto.subtle.importKey(
+    'pkcs8', binaryDer.buffer,
+    { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
+    false, ['sign']
+  );
+
+  const encoder = new TextEncoder();
+  const sig = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', cryptoKey, encoder.encode(unsigned));
+  const sigB64 = btoa(String.fromCharCode(...new Uint8Array(sig))).replace(/=/g,'').replace(/\+/g,'-').replace(/\//g,'_');
+
+  const jwt = unsigned + '.' + sigB64;
+
+  const resp = await fetch('https://oauth2.googleapis.com/token', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    body: `grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=${jwt}`
+  });
+
+  const data = await resp.json();
+  if (!data.access_token) throw new Error('Token failed: ' + JSON.stringify(data));
+  return data.access_token;
+}
+
+async function submitUrl(url, token, type) {
+  const resp = await fetch('https://indexing.googleapis.com/v3/urlNotifications:publish', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer ' + token
+    },
+    body: JSON.stringify({ url, type })
+  });
+  const data = await resp.json();
+  if (!resp.ok) throw new Error(data.error?.message || 'HTTP ' + resp.status);
+  return data;
+}
+
+// ============================================================
+// MAIN SUBMIT
+// ============================================================
+async function startSubmit() {
+  if (isRunning) return;
+
+  const urls = getUrls();
+  if (urls.length === 0) { showToast('⚠️ No valid URLs found', 'error'); return; }
+
+  const loadedKeys = keys.filter(k => k.keyData);
+  if (loadedKeys.length === 0) { showToast('⚠️ Please upload JSON key file first', 'error'); return; }
+
+  isRunning = true;
+  const btn = document.getElementById('submitBtn');
+  btn.classList.add('loading');
+  btn.disabled = true;
+
+  document.getElementById('progressSection').classList.add('active');
+  document.getElementById('liveLog').innerHTML = '';
+
+  const type = document.getElementById('actionType').value;
+  let done = 0, successCount = 0, failCount = 0;
+  let tokenCache = {};
+  let currentKeyIdx = activeKeyIndex;
+
+  if (loadedKeys.length === 0) { showToast('❌ No loaded keys', 'error'); return; }
+
+  for (let i = 0; i < urls.length; i++) {
+    const url = urls[i];
+
+    let keyData = null;
+    if (autoRotate) {
+      const available = keys.filter(k => k.keyData && (k.quota - k.used) > 0);
+      if (available.length === 0) {
+        addLog(url, 'error', '429 - All keys quota exhausted');
+        failCount++; done++;
+        updateProgress(done, urls.length, successCount, failCount);
+        continue;
+      }
+      const best = available.reduce((a, b) => (b.quota - b.used) > (a.quota - a.used) ? b : a);
+      keyData = best;
+    } else {
+      keyData = keys[activeKeyIndex]?.keyData ? keys[activeKeyIndex] : null;
+      if (!keyData) { showToast('⚠️ Active key not loaded', 'error'); break; }
+    }
+
+    try {
+      if (!tokenCache[keyData.email]) {
+        tokenCache[keyData.email] = await getAccessToken(keyData.keyData);
+      }
+      const token = tokenCache[keyData.email];
+
+      addLog(url, 'pending', 'Submitting...');
+      await submitUrl(url, token, type);
+
+      keyData.used++;
+      stats.total++;
+      stats.success++;
+      stats.quota++;
+      successCount++;
+      updateLogLast(url, 'success', '200 OK');
+
+      history.unshift({ url, status: 'success', time: new Date().toISOString(), key: keyData.name });
+
+    } catch(err) {
+      if (err.message.includes('401') || err.message.includes('403')) {
+        delete tokenCache[keyData.email];
+      }
+      stats.total++;
+      stats.failed++;
+      failCount++;
+      updateLogLast(url, 'error', err.message.substring(0, 60));
+      history.unshift({ url, status: 'error', msg: err.message, time: new Date().toISOString(), key: keyData.name });
+    }
+
+    done++;
+    updateProgress(done, urls.length, successCount, failCount);
+    updateStats();
+    renderKeys();
+    saveState();
+
+    await sleep(300);
+  }
+
+  isRunning = false;
+  btn.classList.remove('loading');
+  btn.disabled = false;
+
+  showToast(`✅ Done! ${successCount} success, ${failCount} failed`, successCount > 0 ? 'success' : 'error');
+  renderHistory();
+  saveState();
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+function updateProgress(done, total, success, fail) {
+  const pct = Math.round((done / total) * 100);
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressLabel').textContent = `${done}/${total} — ✅ ${success} ❌ ${fail}`;
+  document.getElementById('progressPct').textContent = pct + '%';
+}
+
+// ============================================================
+// LOG
+// ============================================================
+let lastLogUrl = null;
+
+function addLog(url, status, msg) {
+  lastLogUrl = url;
+  const icons = { success: '✅', error: '❌', pending: '⏳' };
+  const time = new Date().toLocaleTimeString('en-US', { hour12: false });
+  const log = document.getElementById('liveLog');
+
+  const item = document.createElement('div');
+  item.className = `log-item ${status}`;
+  item.id = 'log-' + btoa(url).substring(0, 10);
+  item.innerHTML = `
+    <span class="log-status">${icons[status]}</span>
+    <span class="log-url">${url}</span>
+    <span class="log-time">${time}</span>
+    <span class="log-badge ${status}">${status}</span>`;
+  log.prepend(item);
+}
+
+function updateLogLast(url, status, msg) {
+  const id = 'log-' + btoa(url).substring(0, 10);
+  const el = document.getElementById(id);
+  if (!el) { addLog(url, status, msg); return; }
+  const icons = { success: '✅', error: '❌', pending: '⏳' };
+  el.className = `log-item ${status}`;
+  el.querySelector('.log-status').textContent = icons[status];
+  el.querySelector('.log-badge').className = `log-badge ${status}`;
+  el.querySelector('.log-badge').textContent = status;
+}
+
+// ============================================================
+// STATS
+// ============================================================
+function updateStats() {
+  document.getElementById('statTotal').textContent = stats.total;
+  document.getElementById('statSuccess').textContent = stats.success;
+  document.getElementById('statFailed').textContent = stats.failed;
+  document.getElementById('statQuota').textContent = stats.quota;
+}
+
+// ============================================================
+// HISTORY
+// ============================================================
+function renderHistory() {
+  const container = document.getElementById('historyLog');
+  let items = history;
+  if (historyFilter !== 'all') items = history.filter(h => h.status === historyFilter);
+
+  if (items.length === 0) {
+    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📋</div><p>No history yet</p></div>`;
+    return;
+  }
+
+  const icons = { success: '✅', error: '❌' };
+  container.innerHTML = items.slice(0, 200).map(h => {
+    const t = new Date(h.time).toLocaleString('en-US', { month:'short', day:'numeric', hour:'2-digit', minute:'2-digit', hour12:false });
+    return `<div class="log-item ${h.status}">
+      <span class="log-status">${icons[h.status] || '❓'}</span>
+      <span class="log-url">${h.url}</span>
+      <span class="log-time">${t}</span>
+      <span class="log-badge ${h.status}">${h.status}</span>
+    </div>`;
+  }).join('');
+}
+
+function filterHistory(f, btn) {
+  historyFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderHistory();
+}
+
+function clearHistory() {
+  if (!confirm('Clear all history?')) return;
+  history = [];
+  stats = { total: 0, success: 0, failed: 0, quota: 0 };
+  saveState();
+  updateStats();
+  renderHistory();
+  showToast('🗑 History cleared', 'info');
+}
+
+// ============================================================
+// TABS
+// ============================================================
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+  if (name === 'history') renderHistory();
+}
+
+// ============================================================
+// TOAST
+// ============================================================
+let toastTimer;
+function showToast(msg, type = 'info') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>
