@@ -1007,20 +1007,68 @@
 <div class="wrapper">
 
   <!-- ============================================================ -->
-  <!-- AD SLOT 1 — TOP BANNER (728x90 leaderboard / responsive)     -->
-  <!-- Adsterra: Paste your banner ad code inside this div          -->
-  <!-- ============================================================ -->
-  <div class="ad-slot ad-slot-top" aria-label="Advertisement">
-    <span class="ad-slot-label">Ad</span>
-    <!-- ADSTERRA AD CODE #1 — TOP BANNER -->
-    <!-- Paste your Adsterra 728x90 or Native Banner script here -->
-    <!-- Example placeholder — replace with real Adsterra code:
-    <script type="text/javascript">
-      atOptions = { 'key': 'YOUR_KEY_HERE', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
-    </script>
-    <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_KEY_HERE/invoke.js"></script>
-    -->
+<!-- AD SLOT 1 — TOP BANNER (728×90 Leaderboard)                 -->
+<!-- Paste this entire block into your top banner ad slot         -->
+<!-- ============================================================ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+.ad1-top-banner{width:728px;height:90px;background:#000;border-radius:6px;overflow:hidden;position:relative;display:flex;align-items:center;border:1px solid rgba(255,255,255,0.06);cursor:pointer;text-decoration:none;}
+.ad1-top-banner::before{content:'';position:absolute;inset:0;background:linear-gradient(105deg,#0b0019 0%,#0d001f 40%,#001226 100%);}
+.ad1-top-banner::after{content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.04),transparent);animation:ad1scan 3.5s ease-in-out infinite;}
+@keyframes ad1scan{0%{left:-60%}100%{left:140%}}
+.ad1-top-banner .left-accent{position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#a855f7,#3b82f6);}
+.ad1-top-banner .glow-orb{position:absolute;left:60px;top:50%;transform:translateY(-50%);width:60px;height:60px;background:radial-gradient(circle,rgba(168,85,247,0.35) 0%,transparent 70%);border-radius:50%;}
+.ad1-top-banner .icon-wrap{position:absolute;left:20px;top:50%;transform:translateY(-50%);width:44px;height:44px;background:linear-gradient(135deg,#7c3aed,#2563eb);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;z-index:1;box-shadow:0 0 20px rgba(124,58,237,0.5);}
+.ad1-top-banner .icon-wrap svg{width:22px;height:22px;}
+.ad1-top-banner .content{position:absolute;left:80px;display:flex;align-items:center;gap:0;z-index:1;}
+.ad1-top-banner .divider{width:1px;height:40px;background:rgba(255,255,255,0.1);margin:0 18px;}
+.ad1-top-banner .headline{font-family:'Syne',sans-serif;font-size:17px;font-weight:800;color:#fff;white-space:nowrap;line-height:1.2;}
+.ad1-top-banner .headline em{font-style:normal;background:linear-gradient(90deg,#a855f7,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.ad1-top-banner .sub{font-size:12px;color:rgba(255,255,255,0.45);white-space:nowrap;margin-top:3px;font-weight:300;}
+.ad1-top-banner .badge-row{display:flex;gap:6px;margin-top:6px;}
+.ad1-top-banner .micro-badge{font-size:9px;font-weight:600;letter-spacing:0.5px;color:rgba(255,255,255,0.5);background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:3px;padding:2px 6px;text-transform:uppercase;}
+.ad1-top-banner .cta-btn{position:absolute;right:20px;top:50%;transform:translateY(-50%);background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.5px;padding:10px 20px;border-radius:6px;white-space:nowrap;z-index:1;box-shadow:0 4px 20px rgba(124,58,237,0.45);transition:transform 0.15s,box-shadow 0.15s;border:none;cursor:pointer;}
+.ad1-top-banner:hover .cta-btn{transform:translateY(-50%) scale(1.04);box-shadow:0 6px 28px rgba(124,58,237,0.65);}
+.ad1-top-banner .live-dot{position:absolute;right:160px;top:50%;transform:translateY(-50%);display:flex;align-items:center;gap:5px;font-size:10px;color:rgba(255,255,255,0.35);white-space:nowrap;z-index:1;font-family:'DM Sans',sans-serif;}
+.ad1-top-banner .live-dot::before{content:'';width:6px;height:6px;background:#22c55e;border-radius:50%;animation:ad1blink 1.2s ease-in-out infinite;}
+@keyframes ad1blink{0%,100%{opacity:1}50%{opacity:0.2}}
+.ad1-shimmer{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.03) 50%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:5;}
+.ad1-top-banner:hover .ad1-shimmer{opacity:1;}
+</style>
+
+<a class="ad1-top-banner" href="https://abackmentor.com/mwb715h0e?key=e8085bf9fdd07927be9ef0b75033a7b3" target="_blank" rel="noopener">
+  <div class="left-accent"></div>
+  <div class="glow-orb"></div>
+  <div class="icon-wrap">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+      <polyline points="17 6 23 6 23 12"/>
+    </svg>
   </div>
+  <div class="content">
+    <div>
+      <div class="headline">Earn <em>$50–$200/Day</em> Working Online</div>
+      <div class="sub">No experience needed &nbsp;·&nbsp; Free to join &nbsp;·&nbsp; Instant access</div>
+      <div class="badge-row">
+        <div class="micro-badge">&#10003; Verified</div>
+        <div class="micro-badge">&#10003; Daily Payouts</div>
+        <div class="micro-badge">&#10003; Mobile Friendly</div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div style="font-size:11px;color:rgba(255,255,255,0.35);margin-bottom:4px;font-family:'DM Sans',sans-serif;">Trusted by</div>
+      <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#a78bfa;">50,000+</div>
+      <div style="font-size:10px;color:rgba(255,255,255,0.3);font-family:'DM Sans',sans-serif;">active earners</div>
+    </div>
+  </div>
+  <div class="live-dot">Live offer</div>
+  <button class="cta-btn">Register Free →</button>
+  <div class="ad1-shimmer"></div>
+</a>
+<!-- ============================================================ -->
+<!-- END AD SLOT 1                                                -->
+<!-- ============================================================ -->
 
   <!-- ============================================================ -->
   <!-- HEADER                                                        -->
