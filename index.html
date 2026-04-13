@@ -1223,21 +1223,79 @@
     <!-- Right Column: Logs -->
     <div class="panel" style="min-height:520px;" aria-label="Submission logs">
 
-      <!-- ============================================================ -->
-      <!-- AD SLOT 2 — SIDEBAR / IN-CONTENT (300x250 rectangle)         -->
-      <!-- Adsterra: Paste your 300x250 or native ad code here          -->
-      <!-- ============================================================ -->
-      <div class="ad-slot ad-slot-mid" style="border-radius:0;border:none;border-bottom:1px solid var(--border);" aria-label="Advertisement">
-        <span class="ad-slot-label">Ad</span>
-        <!-- ADSTERRA AD CODE #2 — IN-CONTENT / RECTANGLE (300x250) -->
-        <!-- Paste your Adsterra script here -->
-        <!-- Example:
-        <script type="text/javascript">
-          atOptions = { 'key': 'YOUR_KEY_HERE', 'format': 'iframe', 'height': 250, 'width': 300, 'params': {} };
-        </script>
-        <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_KEY_HERE/invoke.js"></script>
-        -->
+     <!-- ============================================================ -->
+<!-- AD SLOT 2 — IN-CONTENT / SIDEBAR (300×250 Rectangle)        -->
+<!-- Paste this entire block into your in-content ad slot         -->
+<!-- ============================================================ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+.ad2-in-content{width:300px;height:250px;position:relative;border-radius:12px;overflow:hidden;cursor:pointer;text-decoration:none;display:block;}
+.ad2-in-content .bg{position:absolute;inset:0;background:#080810;border:1px solid rgba(255,255,255,0.07);border-radius:12px;}
+.ad2-in-content .grid-lines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:24px 24px;border-radius:12px;}
+.ad2-in-content .top-glow{position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:200px;height:140px;background:radial-gradient(ellipse,rgba(251,113,133,0.25) 0%,transparent 70%);border-radius:50%;}
+.ad2-in-content .corner-tag{position:absolute;top:14px;left:14px;background:rgba(251,113,133,0.15);border:1px solid rgba(251,113,133,0.3);border-radius:4px;padding:3px 8px;font-size:9px;font-weight:700;letter-spacing:1.5px;color:#fb7185;text-transform:uppercase;z-index:2;font-family:'DM Sans',sans-serif;}
+.ad2-in-content .timer-chip{position:absolute;top:14px;right:14px;background:rgba(0,0,0,0.5);border:1px solid rgba(255,255,255,0.1);border-radius:4px;padding:3px 8px;font-family:'Syne',sans-serif;font-size:11px;font-weight:700;color:rgba(255,255,255,0.6);z-index:2;letter-spacing:1px;}
+.ad2-in-content .main-body{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px 20px;z-index:2;}
+.ad2-in-content .earnings-display{font-family:'Syne',sans-serif;font-size:42px;font-weight:800;background:linear-gradient(90deg,#fb7185,#f43f5e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+.ad2-in-content .earnings-sub{font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:0.5px;margin-top:2px;margin-bottom:10px;font-family:'DM Sans',sans-serif;}
+.ad2-in-content .headline{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;color:#fff;text-align:center;line-height:1.3;margin-bottom:6px;}
+.ad2-in-content .desc{font-size:11px;color:rgba(255,255,255,0.4);text-align:center;line-height:1.5;margin-bottom:14px;font-family:'DM Sans',sans-serif;font-weight:300;}
+.ad2-in-content .cta{width:100%;padding:11px 0;background:linear-gradient(135deg,#e11d48,#be185d);color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;border:none;border-radius:7px;cursor:pointer;box-shadow:0 4px 18px rgba(225,29,72,0.45);transition:transform 0.15s,box-shadow 0.15s;letter-spacing:0.3px;}
+.ad2-in-content:hover .cta{transform:scale(1.03);box-shadow:0 6px 26px rgba(225,29,72,0.65);}
+.ad2-in-content .proof-row{display:flex;gap:10px;margin-top:10px;}
+.ad2-in-content .proof-item{display:flex;align-items:center;gap:4px;font-size:9px;color:rgba(255,255,255,0.35);font-family:'DM Sans',sans-serif;}
+.ad2-in-content .proof-item svg{width:10px;height:10px;color:rgba(251,113,133,0.7);}
+.ad2-shimmer{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.03) 50%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:5;}
+.ad2-in-content:hover .ad2-shimmer{opacity:1;}
+</style>
+
+<a class="ad2-in-content" href="https://abackmentor.com/mwb715h0e?key=e8085bf9fdd07927be9ef0b75033a7b3" target="_blank" rel="noopener">
+  <div class="bg"></div>
+  <div class="grid-lines"></div>
+  <div class="top-glow"></div>
+  <div class="corner-tag">&#9889; Hot Offer</div>
+  <div class="timer-chip" id="ad2-timer">09:59</div>
+  <div class="main-body">
+    <div class="earnings-display">$150</div>
+    <div class="earnings-sub">Average daily earnings</div>
+    <div class="headline">Start Earning Online<br>From Scratch — Today</div>
+    <div class="desc">No skills, no investment needed.<br>Join thousands already earning.</div>
+    <button class="cta">Get Free Access Now →</button>
+    <div class="proof-row">
+      <div class="proof-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        100% Safe
       </div>
+      <div class="proof-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Instant Start
+      </div>
+      <div class="proof-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Verified Program
+      </div>
+    </div>
+  </div>
+  <div class="ad2-shimmer"></div>
+</a>
+
+<script>
+(function(){
+  var secs = 599;
+  var el = document.getElementById('ad2-timer');
+  if(!el) return;
+  setInterval(function(){
+    if(secs <= 0){ el.textContent = '00:00'; return; }
+    secs--;
+    var m = Math.floor(secs/60);
+    var s = secs%60;
+    el.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  }, 1000);
+})();
+</script>
+<!-- ============================================================ -->
+<!-- END AD SLOT 2                                                -->
+<!-- ============================================================ -->
 
       <div class="tab-bar" role="tablist">
         <button class="tab-btn active" onclick="switchTab('live', this)" role="tab" aria-selected="true" aria-controls="tab-live">Live Log</button>
@@ -1361,20 +1419,83 @@
   </article>
 
   <!-- ============================================================ -->
-  <!-- AD SLOT 3 — BOTTOM BANNER (728x90 / responsive footer ad)    -->
-  <!-- Adsterra: Paste your banner ad code inside this div          -->
-  <!-- ============================================================ -->
-  <div class="ad-slot ad-slot-bottom" aria-label="Advertisement">
-    <span class="ad-slot-label">Ad</span>
-    <!-- ADSTERRA AD CODE #3 — BOTTOM BANNER -->
-    <!-- Paste your Adsterra script here -->
-    <!-- Example:
-    <script type="text/javascript">
-      atOptions = { 'key': 'YOUR_KEY_HERE', 'format': 'iframe', 'height': 90, 'width': 728, 'params': {} };
-    </script>
-    <script type="text/javascript" src="//www.highperformanceformat.com/YOUR_KEY_HERE/invoke.js"></script>
-    -->
+<!-- AD SLOT 3 — BOTTOM BANNER (728×90 Leaderboard)              -->
+<!-- Paste this entire block into your bottom banner ad slot      -->
+<!-- ============================================================ -->
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
+.ad3-bottom-banner{width:728px;height:90px;position:relative;border-radius:6px;overflow:hidden;cursor:pointer;text-decoration:none;display:block;}
+.ad3-bottom-banner .bg{position:absolute;inset:0;background:linear-gradient(105deg,#020d07 0%,#011a10 50%,#001a0d 100%);border:1px solid rgba(255,255,255,0.06);border-radius:6px;}
+.ad3-bottom-banner .right-accent{position:absolute;right:0;top:0;bottom:0;width:4px;background:linear-gradient(180deg,#22c55e,#14b8a6);}
+.ad3-bottom-banner .ticker{position:absolute;bottom:0;left:0;right:0;height:20px;background:rgba(0,0,0,0.4);border-top:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;overflow:hidden;}
+.ad3-bottom-banner .ticker-inner{display:flex;gap:0;white-space:nowrap;animation:ad3ticker 18s linear infinite;}
+@keyframes ad3ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ad3-bottom-banner .ticker-item{font-size:9px;color:rgba(255,255,255,0.25);padding:0 24px;letter-spacing:0.5px;font-family:'DM Sans',sans-serif;}
+.ad3-bottom-banner .ticker-item span{color:#4ade80;font-weight:600;}
+.ad3-bottom-banner .content-area{position:absolute;top:0;left:0;right:0;height:70px;display:flex;align-items:center;padding:0 20px;gap:0;z-index:1;}
+.ad3-bottom-banner .stat-block{display:flex;flex-direction:column;align-items:center;padding:0 18px;border-right:1px solid rgba(255,255,255,0.07);}
+.ad3-bottom-banner .stat-block:last-of-type{border-right:none;}
+.ad3-bottom-banner .stat-num{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:#4ade80;line-height:1;}
+.ad3-bottom-banner .stat-label{font-size:9px;color:rgba(255,255,255,0.3);letter-spacing:0.5px;margin-top:3px;white-space:nowrap;font-family:'DM Sans',sans-serif;}
+.ad3-bottom-banner .main-copy{flex:1;padding:0 22px;}
+.ad3-bottom-banner .main-copy .headline{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:#fff;line-height:1.2;}
+.ad3-bottom-banner .main-copy .headline em{font-style:normal;color:#4ade80;}
+.ad3-bottom-banner .main-copy .sub{font-size:11px;color:rgba(255,255,255,0.4);margin-top:3px;font-weight:300;font-family:'DM Sans',sans-serif;}
+.ad3-bottom-banner .cta-area{display:flex;flex-direction:column;align-items:flex-end;gap:6px;padding-right:16px;}
+.ad3-bottom-banner .cta-btn{background:linear-gradient(135deg,#16a34a,#0d9488);color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;letter-spacing:0.3px;padding:10px 22px;border-radius:6px;white-space:nowrap;border:none;cursor:pointer;box-shadow:0 4px 18px rgba(22,163,74,0.45);transition:transform 0.15s,box-shadow 0.15s;}
+.ad3-bottom-banner:hover .cta-btn{transform:scale(1.04);box-shadow:0 6px 26px rgba(22,163,74,0.65);}
+.ad3-bottom-banner .free-tag{font-size:9.5px;color:#4ade80;font-weight:600;letter-spacing:0.5px;font-family:'DM Sans',sans-serif;}
+.ad3-shimmer{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.03) 50%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:5;}
+.ad3-bottom-banner:hover .ad3-shimmer{opacity:1;}
+</style>
+
+<a class="ad3-bottom-banner" href="https://abackmentor.com/mwb715h0e?key=e8085bf9fdd07927be9ef0b75033a7b3" target="_blank" rel="noopener">
+  <div class="bg"></div>
+  <div class="right-accent"></div>
+
+  <div class="content-area">
+    <div class="stat-block">
+      <div class="stat-num">50K+</div>
+      <div class="stat-label">Members</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">$2M+</div>
+      <div class="stat-label">Paid Out</div>
+    </div>
+    <div class="stat-block">
+      <div class="stat-num">4.9★</div>
+      <div class="stat-label">Rating</div>
+    </div>
+    <div class="main-copy">
+      <div class="headline">Still Broke? <em>Start Earning Online Right Now</em> — It's Free</div>
+      <div class="sub">Register in 60 seconds &nbsp;·&nbsp; No investment &nbsp;·&nbsp; Real daily payouts to your account</div>
+    </div>
+    <div class="cta-area">
+      <button class="cta-btn">Join Free →</button>
+      <div class="free-tag">&#10003; Zero cost to start</div>
+    </div>
   </div>
+
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="ticker-item">&#9679; Alex R. earned <span>$183</span> today</span>
+      <span class="ticker-item">&#9679; Maria K. joined <span>2 min ago</span></span>
+      <span class="ticker-item">&#9679; 1,284 people registered <span>this week</span></span>
+      <span class="ticker-item">&#9679; John D. earned <span>$97</span> in first hour</span>
+      <span class="ticker-item">&#9679; New milestone: <span>$2M+ paid</span> to members</span>
+      <span class="ticker-item">&#9679; Alex R. earned <span>$183</span> today</span>
+      <span class="ticker-item">&#9679; Maria K. joined <span>2 min ago</span></span>
+      <span class="ticker-item">&#9679; 1,284 people registered <span>this week</span></span>
+      <span class="ticker-item">&#9679; John D. earned <span>$97</span> in first hour</span>
+      <span class="ticker-item">&#9679; New milestone: <span>$2M+ paid</span> to members</span>
+    </div>
+  </div>
+
+  <div class="ad3-shimmer"></div>
+</a>
+<!-- ============================================================ -->
+<!-- END AD SLOT 3                                                -->
+<!-- ============================================================ -->
 
   <!-- ============================================================ -->
   <!-- FOOTER                                                        -->
