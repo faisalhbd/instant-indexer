@@ -173,6 +173,7 @@
 <link rel="preconnect" href="https://oauth2.googleapis.com">
 <link rel="preconnect" href="https://indexing.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 
 <!-- ===================== PERFORMANCE / PWA ===================== -->
 <meta name="mobile-web-app-capable" content="yes">
@@ -433,6 +434,132 @@
 
   .stat-sub { font-size: 11px; color: var(--muted); margin-top: 6px; font-family: 'DM Mono', monospace; }
 
+  .stat-clear-btn {
+    position: absolute; top: 10px; right: 10px;
+    background: transparent; border: 1px solid var(--border);
+    border-radius: 6px; color: var(--muted); cursor: pointer;
+    font-size: 9px; padding: 2px 7px; font-family: 'DM Mono', monospace;
+    transition: all 0.2s; letter-spacing: 0.5px; text-transform: uppercase;
+  }
+  .stat-clear-btn:hover { border-color: var(--danger); color: var(--danger); background: var(--danger-glow); }
+
+  /* Key quota exhausted states */
+  .key-item.quota-exhausted { border-color: rgba(255,79,109,0.4); background: rgba(255,79,109,0.04); }
+  .key-item.quota-exhausted::before { background: var(--danger); box-shadow: 0 0 8px rgba(255,79,109,0.5); }
+  .key-status-icon.exhausted { background: rgba(255,79,109,0.12); border-color: rgba(255,79,109,0.35); }
+  .key-status-icon.recovering { background: rgba(255,201,74,0.1); border-color: rgba(255,201,74,0.3); }
+  .key-quota-num.exhausted { color: var(--danger); }
+  .key-quota-num.recovering { color: var(--warn); }
+  .quota-reset-badge {
+    font-size: 8px; color: var(--muted); font-family: 'DM Mono', monospace;
+    letter-spacing: 0.3px; display: flex; align-items: center; gap: 3px;
+  }
+  .quota-reset-badge.red { color: var(--danger); }
+  .quota-reset-badge.green { color: var(--accent2); }
+
+  /* Guide modal */
+  .guide-modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+    z-index: 2000; display: flex; align-items: center; justify-content: center;
+    padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    backdrop-filter: blur(6px);
+  }
+  .guide-modal-overlay.open { opacity: 1; pointer-events: all; }
+  .guide-modal {
+    background: var(--surface); border: 1px solid var(--border2);
+    border-radius: 16px; max-width: 700px; width: 100%;
+    max-height: 88vh; overflow-y: auto; position: relative;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.6);
+  }
+  .guide-modal::-webkit-scrollbar { width: 4px; }
+  .guide-modal::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .guide-modal-header {
+    padding: 22px 24px 16px; border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0;
+    background: var(--surface); z-index: 5; border-radius: 16px 16px 0 0;
+  }
+  .guide-modal-title { font-size: 16px; font-weight: 700; color: var(--text); letter-spacing: -0.3px; }
+  .guide-modal-close {
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 8px;
+    color: var(--muted); cursor: pointer; font-size: 16px; width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+  }
+  .guide-modal-close:hover { border-color: var(--danger); color: var(--danger); }
+  .guide-body { padding: 24px; display: flex; flex-direction: column; gap: 20px; }
+  .guide-step {
+    display: flex; gap: 16px; align-items: flex-start;
+    background: var(--surface2); border: 1px solid var(--border); border-radius: 10px;
+    padding: 16px;
+  }
+  .guide-step-num {
+    width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent), #a78bff);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 14px; color: #fff;
+    box-shadow: 0 0 16px rgba(93,124,255,0.3);
+  }
+  .guide-step-content { flex: 1; }
+  .guide-step-title { font-weight: 600; font-size: 13px; color: var(--text); margin-bottom: 6px; }
+  .guide-step-text { font-size: 12px; color: var(--text2); line-height: 1.7; }
+  .guide-step-text a { color: var(--accent); text-decoration: none; }
+  .guide-step-text a:hover { text-decoration: underline; }
+  .guide-warning {
+    background: rgba(255,201,74,0.06); border: 1px solid rgba(255,201,74,0.2);
+    border-radius: 10px; padding: 14px 16px; font-size: 12px;
+    color: var(--warn); line-height: 1.6;
+  }
+  .guide-warning strong { font-weight: 700; }
+  .guide-btn-link {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 8px;
+    padding: 8px 14px; font-size: 12px; font-weight: 600; cursor: pointer;
+    text-decoration: none; transition: all 0.25s; margin-top: 8px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.1);
+    letter-spacing: 0.3px;
+  }
+  .guide-btn-link:hover {
+    background: rgba(255,255,255,0.15);
+    border-color: rgba(255,255,255,0.35);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2), inset 0 1px 0 rgba(255,255,255,0.15);
+  }
+
+  .help-btn {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 100px; color: var(--text2); cursor: pointer;
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    padding: 8px 16px; font-weight: 500; transition: all 0.3s ease;
+    display: flex; align-items: center; gap: 6px;
+    position: relative;
+    box-shadow: 0 0 0 0 rgba(93,124,255,0);
+    animation: helpPulse 2s infinite;
+  }
+  @keyframes helpPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(93,124,255,0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(93,124,255,0); }
+  }
+  .help-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(93,124,255,0.06);
+    transform: scale(1.08);
+    box-shadow: 0 0 20px rgba(93,124,255,0.5), 0 0 0 8px rgba(93,124,255,0.1);
+    animation: helpPulse 1s infinite;
+  }
+  .help-btn:active { transform: scale(0.98); }
+
+  .max-keys-warn {
+    background: rgba(255,79,109,0.08); border: 1px dashed rgba(255,79,109,0.4);
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    font-size: 11px; color: var(--danger); font-family: 'DM Mono', monospace;
+    text-align: center; display: none;
+  }
+
   /* ===== MAIN GRID ===== */
   .main-grid {
     display: grid;
@@ -632,20 +759,55 @@
     background: linear-gradient(135deg, var(--accent), #7c6aff);
     color: #fff; width: 100%; font-size: 14px;
     padding: 15px; letter-spacing: 0.3px;
-    box-shadow: 0 4px 20px rgba(93,124,255,0.3);
+    box-shadow: 0 4px 20px rgba(93,124,255,0.3), 0 0 0 0 rgba(93,124,255,0.7);
     border-radius: 10px; font-weight: 700;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    animation: buttonPulse 2s infinite;
+  }
+
+  @keyframes buttonPulse {
+    0%, 100% {
+      box-shadow: 0 4px 20px rgba(93,124,255,0.3), 0 0 0 0 rgba(93,124,255,0.7);
+    }
+    50% {
+      box-shadow: 0 4px 20px rgba(93,124,255,0.5), 0 0 0 10px rgba(93,124,255,0);
+    }
+  }
+
+  @keyframes shimmerFlow {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+
+  .btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+    animation: shimmerFlow 2s infinite;
+    pointer-events: none;
   }
 
   .btn-primary:hover {
     background: linear-gradient(135deg, #6d8cff, #9278ff);
-    transform: translateY(-2px); box-shadow: 0 8px 28px rgba(93,124,255,0.4);
+    transform: translateY(-3px) scale(1.02); 
+    box-shadow: 0 10px 35px rgba(93,124,255,0.6), 0 0 30px rgba(93,124,255,0.4);
+    animation: buttonPulse 1.2s infinite;
   }
 
-  .btn-primary:active { transform: translateY(0); }
+  .btn-primary:active { 
+    transform: translateY(-1px) scale(0.98);
+  }
 
   .btn-primary:disabled {
     background: var(--surface3); color: var(--muted);
     cursor: not-allowed; transform: none; box-shadow: none;
+    animation: none;
   }
 
   .btn-secondary {
@@ -999,6 +1161,12 @@
     .footer { flex-direction: column; align-items: flex-start; }
     .seo-grid { grid-template-columns: 1fr; }
     .seo-section { padding: 20px 16px; }
+    .guide-modal { border-radius: 12px; max-height: 92vh; }
+    .guide-body { padding: 16px; gap: 14px; }
+    .guide-step { padding: 12px; gap: 12px; }
+    .guide-modal-header { padding: 16px 16px 12px; }
+    .guide-step-title { font-size: 12px; }
+    .guide-step-text { font-size: 11px; }
   }
 </style>
 </head>
@@ -1010,7 +1178,6 @@
 <!-- AD SLOT 1 — TOP BANNER (Centered + Mobile Responsive)        -->
 <!-- ============================================================ -->
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
 .ad1-wrap{width:100%;display:flex;justify-content:center;align-items:center;padding:4px 0;}
 
@@ -1045,8 +1212,12 @@
 .ad1-top-banner .trust-block .t-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#a78bfa;line-height:1;}
 .ad1-top-banner .trust-block .t-sub{font-size:9px;color:rgba(255,255,255,0.3);font-family:'DM Sans',sans-serif;}
 
-.ad1-top-banner .cta-btn{flex-shrink:0;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;padding:10px 18px;border-radius:6px;white-space:nowrap;z-index:1;box-shadow:0 4px 20px rgba(124,58,237,0.45);transition:transform 0.15s,box-shadow 0.15s;border:none;cursor:pointer;}
-.ad1-top-banner:hover .cta-btn{transform:scale(1.04);box-shadow:0 6px 28px rgba(124,58,237,0.65);}
+@keyframes adShimmerFlow{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+@keyframes ctaPulse{0%,100%{box-shadow:0 4px 20px rgba(124,58,237,0.45), 0 0 0 0 rgba(124,58,237,0.7);}50%{box-shadow:0 4px 20px rgba(124,58,237,0.6), 0 0 0 8px rgba(124,58,237,0);}}
+
+.ad1-top-banner .cta-btn{flex-shrink:0;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;padding:10px 18px;border-radius:6px;white-space:nowrap;z-index:1;box-shadow:0 4px 20px rgba(124,58,237,0.45), 0 0 0 0 rgba(124,58,237,0.7);transition:all 0.3s ease;border:none;cursor:pointer;position:relative;overflow:hidden;animation:ctaPulse 2s infinite;}
+.ad1-top-banner .cta-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);animation:adShimmerFlow 2s infinite;pointer-events:none;}
+.ad1-top-banner:hover .cta-btn{transform:scale(1.08) translateY(-2px);box-shadow:0 8px 35px rgba(124,58,237,0.7), 0 0 25px rgba(124,58,237,0.5);animation:ctaPulse 1.2s infinite;}
 
 .ad1-shimmer{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.03) 50%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:5;}
 .ad1-top-banner:hover .ad1-shimmer{opacity:1;}
@@ -1112,6 +1283,9 @@
         <div class="status-dot" aria-hidden="true"></div>
         <span>API Ready</span>
       </div>
+      <button class="help-btn" onclick="openGuide()" aria-label="How to use this tool">
+        📖 How to Use
+      </button>
       <div class="clock-badge" id="currentTime" aria-label="Current time">—</div>
     </div>
   </header>
@@ -1120,25 +1294,26 @@
   <!-- STATS BAR                                                     -->
   <!-- ============================================================ -->
   <section class="stats-bar" aria-label="Submission statistics">
-    <div class="stat-card green">
+    <div class="stat-card green" style="position:relative;">
+      <button class="stat-clear-btn" onclick="clearStats()" title="Clear all stats">Clear</button>
       <div class="stat-card-bg" aria-hidden="true">📤</div>
       <div class="stat-label">Total Submitted</div>
       <div class="stat-value" id="statTotal" aria-live="polite">0</div>
       <div class="stat-sub">all time</div>
     </div>
-    <div class="stat-card blue">
+    <div class="stat-card blue" style="position:relative;">
       <div class="stat-card-bg" aria-hidden="true">✅</div>
       <div class="stat-label">Successful</div>
       <div class="stat-value" id="statSuccess" aria-live="polite">0</div>
       <div class="stat-sub">indexed</div>
     </div>
-    <div class="stat-card danger">
+    <div class="stat-card danger" style="position:relative;">
       <div class="stat-card-bg" aria-hidden="true">❌</div>
       <div class="stat-label">Failed</div>
       <div class="stat-value" id="statFailed" aria-live="polite">0</div>
       <div class="stat-sub">errors</div>
     </div>
-    <div class="stat-card warn">
+    <div class="stat-card warn" style="position:relative;">
       <div class="stat-card-bg" aria-hidden="true">📊</div>
       <div class="stat-label">Quota Used</div>
       <div class="stat-value" id="statQuota" aria-live="polite">0</div>
@@ -1171,12 +1346,13 @@
             </div>
           </div>
           <div class="section-divider" style="margin-bottom:14px;" role="separator"></div>
+          <div class="max-keys-warn" id="maxKeysWarn">🔒 Maximum 10 JSON keys reached. Remove a key to add new ones.</div>
           <div class="upload-zone" id="uploadZone" role="button" tabindex="0" aria-label="Upload Google service account JSON key file">
             <input type="file" id="jsonFileInput" accept=".json" multiple aria-label="Select JSON key files">
             <div class="upload-icon" aria-hidden="true">📂</div>
             <div class="upload-text">
               <strong>Click to upload</strong> JSON key file<br>
-              <span class="hint">Supports multiple files · service account JSON only</span>
+              <span class="hint">Max 10 keys · service account JSON only</span>
             </div>
           </div>
         </div>
@@ -1253,7 +1429,6 @@
 <!-- AD SLOT 2 — IN-CONTENT / SIDEBAR (300×250, Centered+Mobile) -->
 <!-- ============================================================ -->
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
 .ad2-wrap{width:100%;display:flex;justify-content:center;align-items:center;padding:4px 0;}
 
@@ -1372,9 +1547,97 @@
     </div>
   </main>
 
-  <!-- ============================================================ -->
-  <!-- SEO CONTENT SECTION (for Google + AIEO crawlers)             -->
-  <!-- ============================================================ -->
+<!-- ============================================================ -->
+<!-- HOW TO USE GUIDE MODAL                                       -->
+<!-- ============================================================ -->
+<div class="guide-modal-overlay" id="guideModal" onclick="closeGuideOutside(event)">
+  <div class="guide-modal" role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+    <div class="guide-modal-header">
+      <div class="guide-modal-title" id="guideTitle">📖 How to Use Instant Indexer</div>
+      <button class="guide-modal-close" onclick="closeGuide()" aria-label="Close guide">✕</button>
+    </div>
+    <div class="guide-body">
+
+      <div class="guide-warning">
+        <strong>⚠️ Important:</strong> You cannot directly download a JSON key from Search Console. You must create a <strong>Google Cloud Service Account</strong>, generate a JSON key from Google Cloud Console, and then add the service account email as an <strong>Owner</strong> in Search Console. Follow these steps carefully in order.
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-num">1</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Create a Google Cloud Project</div>
+          <div class="guide-step-text">
+            Go to <a href="https://console.cloud.google.com/" target="_blank" rel="noopener">console.cloud.google.com</a> → Click on <strong>"Select a project"</strong> at the top → Click <strong>"New Project"</strong> → Enter any project name → Click <strong>Create</strong>.
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-num">2</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Enable Google Indexing API</div>
+          <div class="guide-step-text">
+            From the left menu → <strong>APIs & Services → Library</strong> → Search for <strong>"Web Search Indexing API"</strong> → Click on it → Click <strong>Enable</strong>.
+            <br><br>
+            <a class="guide-btn-link" href="https://console.cloud.google.com/apis/library/indexing.googleapis.com" target="_blank" rel="noopener">↗ Enable via Direct Link</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-num">3</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Create a Service Account</div>
+          <div class="guide-step-text">
+            From the left menu → <strong>APIs & Services → Credentials</strong> → Click <strong>"+ Create Credentials"</strong> → Select <strong>"Service Account"</strong> → Enter a name (e.g., indexer-bot) → Click <strong>Done</strong>.
+            <br><br>
+            Next, click on the newly created Service Account → Go to the <strong>Keys</strong> tab → Click <strong>"Add Key → Create New Key"</strong> → Choose <strong>JSON</strong> format → Click <strong>Create</strong>.
+            <br><br>
+            ✅ A <strong>.json file</strong> will automatically download to your computer. This is your service account key file.
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-num">4</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Add Service Account as Owner in Search Console</div>
+          <div class="guide-step-text">
+            <strong>This is the most important step!</strong> If you don't do this, indexing won't work.
+            <br><br>
+            1. Copy the <strong>"client_email"</strong> value from your <strong>.json file</strong>.<br>
+            (Example: <code style="font-family:monospace;font-size:11px;color:var(--accent2);">indexer-bot@your-project.iam.gserviceaccount.com</code>)
+            <br><br>
+            2. Go to <a href="https://search.google.com/search-console" target="_blank" rel="noopener">search.google.com/search-console</a> and select the website you want to index.
+            <br><br>
+            3. Left menu → <strong>Settings → Users and permissions</strong> → Click <strong>"Add User"</strong> → Paste the copied <strong>client_email</strong> → Set Permission: <strong>Owner</strong> → Click <strong>Add</strong>.
+            <br><br>
+            <a class="guide-btn-link" href="https://search.google.com/search-console/settings/users" target="_blank" rel="noopener">↗ Search Console Users Settings</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-step">
+        <div class="guide-step-num">5</div>
+        <div class="guide-step-content">
+          <div class="guide-step-title">Upload JSON Key and Submit URLs</div>
+          <div class="guide-step-text">
+            1. Come back to this tool → In the <strong>JSON Key Manager</strong>, click <strong>"Click to upload"</strong> and select your JSON file.<br><br>
+            2. Paste the URLs you want to index in the URL box (one URL per line).<br><br>
+            3. Select Action: <strong>URL_UPDATED</strong> (to index) or <strong>URL_DELETED</strong> (to remove from index).<br><br>
+            4. Click <strong>⚡ Submit All URLs</strong>.<br><br>
+            💡 <strong>Daily Quota:</strong> Each JSON key allows a maximum of <strong>200 URLs</strong> per day. To submit more URLs, add multiple keys (up to max 10).
+          </div>
+        </div>
+      </div>
+
+      <div class="guide-warning" style="background:rgba(0,229,160,0.05);border-color:rgba(0,229,160,0.2);color:var(--accent2);">
+        <strong>🔴 What does the Red Mark mean?</strong> When a JSON key's daily quota of 200 URLs is exhausted, a red mark appears next to it. The mark will automatically turn green after 24 hours (when the daily quota resets).
+      </div>
+
+    </div>
+  </div>
+</div>
   <article class="seo-section" aria-labelledby="aboutToolHeading">
     <h2 id="aboutToolHeading">What is Instant Indexer? — Free Google URL Indexing Tool</h2>
     <p>
@@ -1459,7 +1722,6 @@
 <!-- AD SLOT 3 — TOP BANNER (Centered + Mobile Responsive)        -->
 <!-- ============================================================ -->
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap');
 
 .ad1-wrap{width:100%;display:flex;justify-content:center;align-items:center;padding:4px 0;}
 
@@ -1494,8 +1756,12 @@
 .ad1-top-banner .trust-block .t-num{font-family:'Syne',sans-serif;font-size:18px;font-weight:800;color:#a78bfa;line-height:1;}
 .ad1-top-banner .trust-block .t-sub{font-size:9px;color:rgba(255,255,255,0.3);font-family:'DM Sans',sans-serif;}
 
-.ad1-top-banner .cta-btn{flex-shrink:0;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;padding:10px 18px;border-radius:6px;white-space:nowrap;z-index:1;box-shadow:0 4px 20px rgba(124,58,237,0.45);transition:transform 0.15s,box-shadow 0.15s;border:none;cursor:pointer;}
-.ad1-top-banner:hover .cta-btn{transform:scale(1.04);box-shadow:0 6px 28px rgba(124,58,237,0.65);}
+@keyframes adShimmerFlow{0%{transform:translateX(-100%);}100%{transform:translateX(100%);}}
+@keyframes ctaPulse{0%,100%{box-shadow:0 4px 20px rgba(124,58,237,0.45), 0 0 0 0 rgba(124,58,237,0.7);}50%{box-shadow:0 4px 20px rgba(124,58,237,0.6), 0 0 0 8px rgba(124,58,237,0);}}
+
+.ad1-top-banner .cta-btn{flex-shrink:0;background:linear-gradient(135deg,#7c3aed,#2563eb);color:#fff;font-family:'Syne',sans-serif;font-size:12px;font-weight:700;padding:10px 18px;border-radius:6px;white-space:nowrap;z-index:1;box-shadow:0 4px 20px rgba(124,58,237,0.45), 0 0 0 0 rgba(124,58,237,0.7);transition:all 0.3s ease;border:none;cursor:pointer;position:relative;overflow:hidden;animation:ctaPulse 2s infinite;}
+.ad1-top-banner .cta-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.3),transparent);animation:adShimmerFlow2 2s infinite;pointer-events:none;}
+.ad1-top-banner:hover .cta-btn{transform:scale(1.08) translateY(-2px);box-shadow:0 8px 35px rgba(124,58,237,0.7), 0 0 25px rgba(124,58,237,0.5);animation:ctaPulse 1.2s infinite;}
 
 .ad1-shimmer{position:absolute;inset:0;background:linear-gradient(105deg,transparent 40%,rgba(255,255,255,0.03) 50%,transparent 60%);opacity:0;transition:opacity 0.3s;pointer-events:none;z-index:5;}
 .ad1-top-banner:hover .ad1-shimmer{opacity:1;}
@@ -1581,7 +1847,7 @@
 let keys = [];
 let activeKeyIndex = 0;
 let autoRotate = true;
-let history = [];
+let submissionHistory = [];
 let isRunning = false;
 let stats = { total: 0, success: 0, failed: 0, quota: 0 };
 let historyFilter = 'all';
@@ -1591,11 +1857,11 @@ function loadState() {
     const s = localStorage.getItem('indexer_stats');
     if (s) stats = JSON.parse(s);
     const h = localStorage.getItem('indexer_history');
-    if (h) history = JSON.parse(h);
+    if (h) submissionHistory = JSON.parse(h);
     const k = localStorage.getItem('indexer_keys_meta');
     if (k) {
       const meta = JSON.parse(k);
-      keys = meta.map(m => ({ ...m, keyData: null }));
+      keys = meta.map(m => ({ ...m, keyData: null, exhaustedAt: m.exhaustedAt || null }));
     }
     const today = new Date().toDateString();
     const lastDay = localStorage.getItem('indexer_last_day');
@@ -1609,8 +1875,8 @@ function loadState() {
 
 function saveState() {
   localStorage.setItem('indexer_stats', JSON.stringify(stats));
-  localStorage.setItem('indexer_history', JSON.stringify(history.slice(-500)));
-  const meta = keys.map(k => ({ name: k.name, email: k.email, used: k.used, quota: k.quota }));
+  localStorage.setItem('indexer_history', JSON.stringify(submissionHistory.slice(-500)));
+  const meta = keys.map(k => ({ name: k.name, email: k.email, used: k.used, quota: k.quota, exhaustedAt: k.exhaustedAt || null }));
   localStorage.setItem('indexer_keys_meta', JSON.stringify(meta));
 }
 
@@ -1645,6 +1911,10 @@ function updateClock() {
 async function handleFileUpload(e) {
   const files = Array.from(e.target.files);
   for (const file of files) {
+    if (keys.length >= 10) {
+      showToast('🔒 Maximum 10 keys reached. Remove a key first.', 'error');
+      break;
+    }
     try {
       const text = await file.text();
       const json = JSON.parse(text);
@@ -1657,7 +1927,7 @@ async function handleFileUpload(e) {
       const key = {
         name: json.project_id || file.name.replace('.json',''),
         email: json.client_email,
-        keyData: json, used: 0, quota: 200
+        keyData: json, used: 0, quota: 200, exhaustedAt: null
       };
       keys.push(key);
       showToast('✅ Key added: ' + key.name, 'success');
@@ -1670,36 +1940,85 @@ async function handleFileUpload(e) {
 
 function renderKeys() {
   const list = document.getElementById('keyList');
-  document.getElementById('keyCount').textContent = keys.length + ' key' + (keys.length !== 1 ? 's' : '');
+  document.getElementById('keyCount').textContent = keys.length + ' / 10 key' + (keys.length !== 1 ? 's' : '');
+
+  // Show/hide max keys warning and upload zone
+  const maxWarn = document.getElementById('maxKeysWarn');
+  const uploadZone = document.getElementById('uploadZone');
+  if (keys.length >= 10) {
+    maxWarn.style.display = 'block';
+    uploadZone.style.opacity = '0.4';
+    uploadZone.style.pointerEvents = 'none';
+  } else {
+    maxWarn.style.display = 'none';
+    uploadZone.style.opacity = '1';
+    uploadZone.style.pointerEvents = 'auto';
+  }
 
   if (keys.length === 0) {
     list.innerHTML = `<div class="empty-state" style="padding:20px 16px;"><div class="empty-icon" aria-hidden="true">🔐</div><p>No keys added yet</p></div>`;
     return;
   }
 
+  const now = Date.now();
   list.innerHTML = keys.map((k, i) => {
     const pct = (k.used / k.quota) * 100;
+    const isExhausted = k.used >= k.quota;
+    const exhaustedAt = k.exhaustedAt || null;
+    const hoursSince = exhaustedAt ? (now - exhaustedAt) / 3600000 : 999;
+    const isRecovering = isExhausted && hoursSince < 24;
+    const isRecovered = isExhausted && hoursSince >= 24;
+
+    let statusIcon, statusClass, quotaNumClass, resetBadge;
+    if (isRecovered) {
+      // Auto-reset: mark as recovered
+      k.used = 0; k.exhaustedAt = null;
+      statusIcon = k.keyData ? '🟢' : '⚪';
+      statusClass = 'active-key';
+      quotaNumClass = '';
+      resetBadge = '';
+    } else if (isRecovering) {
+      const hoursLeft = Math.ceil(24 - hoursSince);
+      statusIcon = '🔴';
+      statusClass = 'exhausted';
+      quotaNumClass = 'exhausted';
+      resetBadge = `<div class="quota-reset-badge red">🔴 resets in ~${hoursLeft}h</div>`;
+    } else if (pct >= 100) {
+      statusIcon = '🔴';
+      statusClass = 'exhausted';
+      quotaNumClass = 'exhausted';
+      resetBadge = `<div class="quota-reset-badge red">🔴 quota exhausted</div>`;
+    } else {
+      statusIcon = k.keyData ? '🟢' : '⚪';
+      statusClass = k.keyData ? 'active-key' : '';
+      quotaNumClass = '';
+      resetBadge = '';
+    }
+
     const fillClass = pct > 90 ? 'danger' : pct > 70 ? 'warn' : '';
-    const remaining = k.quota - k.used;
+    const remaining = Math.max(0, k.quota - k.used);
     const isActive = i === activeKeyIndex;
+    const exhaustedClass = (isRecovering || pct >= 100) && !isRecovered ? 'quota-exhausted' : '';
+
     return `
-    <div class="key-item ${isActive ? 'active' : ''}" onclick="setActiveKey(${i})" role="listitem"
+    <div class="key-item ${isActive ? 'active' : ''} ${exhaustedClass}" onclick="setActiveKey(${i})" role="listitem"
       tabindex="0" aria-label="${k.name} — ${remaining} quota remaining"
       onkeydown="if(event.key==='Enter')setActiveKey(${i})">
       <div class="key-item-left">
-        <div class="key-status-icon ${k.keyData ? 'active-key' : ''}" aria-hidden="true">${k.keyData ? '🟢' : '⚪'}</div>
+        <div class="key-status-icon ${statusClass}" aria-hidden="true">${statusIcon}</div>
         <div class="key-info">
           <div class="key-name">${k.name}</div>
           <div class="key-email">${k.email}</div>
           <div class="quota-bar-wrap">
             <div class="quota-bar" role="progressbar" aria-valuenow="${Math.round(pct)}" aria-valuemin="0" aria-valuemax="100" aria-label="Quota used">
-              <div class="quota-fill ${fillClass}" style="width:${pct}%"></div>
+              <div class="quota-fill ${fillClass}" style="width:${Math.min(pct,100)}%"></div>
             </div>
           </div>
+          ${resetBadge}
         </div>
       </div>
       <div class="key-quota">
-        <div class="key-quota-num">${remaining}</div>
+        <div class="key-quota-num ${quotaNumClass}">${remaining}</div>
         <div class="key-quota-label">left today</div>
         <button class="btn-remove" onclick="removeKey(event,${i})" aria-label="Remove key ${k.name}">✕ remove</button>
       </div>
@@ -1853,9 +2172,13 @@ async function startSubmit() {
       await submitUrl(url, token, type);
 
       keyData.used++; stats.total++; stats.success++; stats.quota++;
+      // Track when quota gets exhausted
+      if (keyData.used >= keyData.quota && !keyData.exhaustedAt) {
+        keyData.exhaustedAt = Date.now();
+      }
       successCount++;
       updateLogLast(url, 'success', '200 OK');
-      history.unshift({ url, status: 'success', time: new Date().toISOString(), key: keyData.name });
+      submissionHistory.unshift({ url, status: 'success', time: new Date().toISOString(), key: keyData.name });
 
     } catch(err) {
       if (err.message.includes('401') || err.message.includes('403')) {
@@ -1863,7 +2186,7 @@ async function startSubmit() {
       }
       stats.total++; stats.failed++; failCount++;
       updateLogLast(url, 'error', err.message.substring(0, 60));
-      history.unshift({ url, status: 'error', msg: err.message, time: new Date().toISOString(), key: keyData.name });
+      submissionHistory.unshift({ url, status: 'error', msg: err.message, time: new Date().toISOString(), key: keyData.name });
     }
 
     done++;
@@ -1892,10 +2215,7 @@ function updateProgress(done, total, success, fail) {
 // ============================================================
 // LOG
 // ============================================================
-let lastLogUrl = null;
-
 function addLog(url, status, msg) {
-  lastLogUrl = url;
   const icons = { success: '✅', error: '❌', pending: '⏳' };
   const time = new Date().toLocaleTimeString('en-US', { hour12: false });
   const log = document.getElementById('liveLog');
@@ -1937,8 +2257,8 @@ function updateStats() {
 // ============================================================
 function renderHistory() {
   const container = document.getElementById('historyLog');
-  let items = history;
-  if (historyFilter !== 'all') items = history.filter(h => h.status === historyFilter);
+  let items = submissionHistory;
+  if (historyFilter !== 'all') items = submissionHistory.filter(h => h.status === historyFilter);
 
   if (items.length === 0) {
     container.innerHTML = `<div class="empty-state"><div class="empty-icon" aria-hidden="true">📋</div><p>No history yet</p></div>`;
@@ -1966,11 +2286,38 @@ function filterHistory(f, btn) {
 
 function clearHistory() {
   if (!confirm('Clear all history?')) return;
-  history = [];
-  stats = { total: 0, success: 0, failed: 0, quota: 0 };
-  saveState(); updateStats(); renderHistory();
+  submissionHistory = [];
+  saveState(); renderHistory();
   showToast('🗑 History cleared', 'info');
 }
+
+function clearStats() {
+  if (!confirm('Clear all stats (Total, Success, Failed, Quota)?')) return;
+  stats = { total: 0, success: 0, failed: 0, quota: 0 };
+  saveState(); updateStats();
+  showToast('🗑 Stats cleared', 'info');
+}
+
+// ============================================================
+// GUIDE MODAL
+// ============================================================
+function openGuide() {
+  document.getElementById('guideModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGuide() {
+  document.getElementById('guideModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function closeGuideOutside(e) {
+  if (e.target === document.getElementById('guideModal')) closeGuide();
+}
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeGuide();
+});
 
 // ============================================================
 // TABS
