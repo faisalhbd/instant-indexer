@@ -1146,6 +1146,97 @@
   }
 
   /* ===== RESPONSIVE ===== */
+
+  /* ===== SITEMAP IMPORT ===== */
+  .sitemap-row {
+    display: flex; gap: 8px; align-items: center; margin-top: 4px;
+  }
+  .sitemap-input {
+    flex: 1; background: var(--surface2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); color: var(--text);
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    padding: 9px 12px; outline: none; transition: border-color 0.2s;
+  }
+  .sitemap-input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(93,124,255,0.1); }
+  .sitemap-input::placeholder { color: var(--muted); }
+  .btn-sitemap {
+    background: rgba(93,124,255,0.15); border: 1px solid rgba(93,124,255,0.3);
+    border-radius: var(--radius-sm); color: var(--accent);
+    font-size: 11px; font-weight: 600; padding: 9px 12px;
+    cursor: pointer; white-space: nowrap; transition: all 0.2s;
+    display: flex; align-items: center; gap: 6px;
+    font-family: 'Space Grotesk', sans-serif;
+  }
+  .btn-sitemap:hover { background: rgba(93,124,255,0.25); border-color: var(--accent); }
+  .btn-sitemap:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  /* ===== URL VALIDATION BAR ===== */
+  .url-validation-bar {
+    display: flex; flex-wrap: wrap; gap: 6px; align-items: center;
+    background: var(--surface3); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 8px 12px;
+    font-family: 'DM Mono', monospace; font-size: 10px;
+  }
+  .uv-badge {
+    display: flex; align-items: center; gap: 4px;
+    padding: 3px 8px; border-radius: 100px;
+    font-size: 10px; font-weight: 500; letter-spacing: 0.3px;
+  }
+  .uv-badge.valid   { background: rgba(0,229,160,0.1);  color: var(--accent2); border: 1px solid rgba(0,229,160,0.2); }
+  .uv-badge.duplicate { background: rgba(93,124,255,0.1); color: var(--accent);  border: 1px solid rgba(93,124,255,0.2); }
+  .uv-badge.already { background: rgba(255,201,74,0.1); color: var(--warn);    border: 1px solid rgba(255,201,74,0.2); }
+  .uv-badge.prevsubmit { background: rgba(255,79,109,0.08); color: var(--danger); border: 1px solid rgba(255,79,109,0.2); }
+  .uv-clean-btn {
+    margin-left: auto; background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.25);
+    border-radius: 6px; color: var(--accent2); cursor: pointer;
+    font-size: 10px; padding: 3px 10px; font-family: 'DM Mono', monospace;
+    transition: all 0.2s; font-weight: 600;
+  }
+  .uv-clean-btn:hover { background: rgba(0,229,160,0.2); border-color: var(--accent2); }
+
+  /* ===== INDEX CHECK RESULT ===== */
+  .index-check-wrap {
+    background: var(--surface3); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    font-family: 'DM Mono', monospace; font-size: 11px;
+    max-height: 160px; overflow-y: auto;
+  }
+  .index-check-wrap::-webkit-scrollbar { width: 3px; }
+  .index-check-wrap::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 2px; }
+  .index-check-title {
+    font-size: 10px; color: var(--muted); text-transform: uppercase;
+    letter-spacing: 1px; margin-bottom: 8px; font-weight: 600;
+  }
+  .ic-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 4px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 10px;
+  }
+  .ic-item:last-child { border-bottom: none; }
+  .ic-url { flex: 1; color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .ic-status { flex-shrink: 0; font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 4px; }
+  .ic-status.indexed   { background: rgba(0,229,160,0.12); color: var(--accent2); }
+  .ic-status.notindexed { background: rgba(255,79,109,0.1); color: var(--danger); }
+  .ic-status.checking  { background: rgba(255,201,74,0.1); color: var(--warn); }
+  .ic-remove-btn {
+    background: none; border: none; color: var(--muted); cursor: pointer;
+    font-size: 12px; padding: 0 2px; transition: color 0.2s; flex-shrink: 0;
+  }
+  .ic-remove-btn:hover { color: var(--danger); }
+  .guard-warning {
+    background: rgba(255,79,109,0.07); border: 1px solid rgba(255,79,109,0.25);
+    border-radius: var(--radius-sm); padding: 10px 14px;
+    font-size: 11px; color: var(--danger); font-family: 'DM Mono', monospace;
+    display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  }
+  .guard-warning strong { font-weight: 700; }
+  .guard-skip-btn {
+    margin-left: auto; background: rgba(255,79,109,0.15); border: 1px solid rgba(255,79,109,0.3);
+    border-radius: 6px; color: var(--danger); cursor: pointer; font-size: 10px;
+    padding: 3px 10px; font-family: 'DM Mono', monospace; font-weight: 600;
+    transition: all 0.2s; white-space: nowrap;
+  }
+  .guard-skip-btn:hover { background: rgba(255,79,109,0.25); }
   @media (max-width: 860px) {
     .main-grid { grid-template-columns: 1fr; }
     .stats-bar { grid-template-columns: repeat(2, 1fr); }
@@ -1275,7 +1366,7 @@
       <div class="logo-icon" aria-hidden="true">⚡</div>
       <div class="logo-text">
         <h1>Instant <span>Indexer</span></h1>
-        <div class="tagline" role="doc-subtitle">Google Indexing API Dashboard · v2.0</div>
+        <div class="tagline" role="doc-subtitle">Google Indexing API Dashboard · v3.0</div>
       </div>
     </div>
     <div class="header-right">
@@ -1378,18 +1469,44 @@
             </div>
           </div>
 
+          <!-- Sitemap Import -->
+          <div class="sitemap-row">
+            <input type="url" id="sitemapInput" class="sitemap-input" placeholder="https://yoursite.com/sitemap.xml" aria-label="Sitemap URL">
+            <button class="btn btn-sitemap" id="sitemapBtn" onclick="importSitemap()" aria-label="Import URLs from sitemap">
+              <span id="sitemapBtnText">📥 Import Sitemap</span>
+              <div class="spinner" id="sitemapSpinner" style="display:none;width:14px;height:14px;border-width:2px;" aria-hidden="true"></div>
+            </button>
+          </div>
+
           <label for="urlInput" class="sr-only">Enter URLs to submit, one per line</label>
           <textarea id="urlInput"
             placeholder="https://yoursite.com/post-1&#10;https://yoursite.com/post-2&#10;https://yoursite.com/post-3&#10;&#10;One URL per line..."
             aria-label="URLs to submit for indexing"
             aria-describedby="urlCountDesc"></textarea>
 
+          <!-- URL Validation Stats Bar -->
+          <div class="url-validation-bar" id="urlValidationBar" style="display:none;">
+            <span class="uv-badge valid">✅ Valid: <strong id="uvValid">0</strong></span>
+            <span class="uv-badge duplicate">🔁 Duplicate: <strong id="uvDupe">0</strong></span>
+            <span class="uv-badge already">📌 Already Indexed: <strong id="uvIndexed">0</strong></span>
+            <span class="uv-badge prevsubmit">⚠️ Prev Submitted: <strong id="uvPrev">0</strong></span>
+            <button class="uv-clean-btn" onclick="cleanUrls()" title="Remove duplicates & previously submitted URLs">🧹 Auto Clean</button>
+          </div>
+
           <div class="url-meta">
             <div class="url-count-wrap" id="urlCountDesc">
               URLs detected: <span class="url-count" id="urlCount" aria-live="polite">0</span>
             </div>
-            <button class="btn btn-secondary" onclick="clearUrls()" aria-label="Clear all URLs">Clear all</button>
+            <div style="display:flex;gap:6px;align-items:center;">
+              <button class="btn btn-secondary" onclick="checkIndexStatus()" id="indexCheckBtn" aria-label="Check Google index status">🔍 Check Index</button>
+              <button class="btn btn-secondary" onclick="clearUrls()" aria-label="Clear all URLs">Clear all</button>
+            </div>
           </div>
+
+          <!-- Duplicate Guard Warning -->
+          <div id="guardWarning" style="display:none;"></div>
+          <!-- Index Check Results -->
+          <div id="indexCheckResult" style="display:none;"></div>
 
           <!-- Progress -->
           <div class="progress-section" id="progressSection" role="status" aria-live="polite">
@@ -2051,6 +2168,7 @@ document.getElementById('rotateToggle').className = 'toggle ' + (autoRotate ? 'o
 function updateUrlCount() {
   const urls = getUrls();
   document.getElementById('urlCount').textContent = urls.length;
+  analyzeUrls();
 }
 
 function getUrls() {
@@ -2063,6 +2181,224 @@ function getUrls() {
 function clearUrls() {
   document.getElementById('urlInput').value = '';
   updateUrlCount();
+}
+
+
+// ============================================================
+// SITEMAP IMPORT
+// ============================================================
+async function importSitemap() {
+  const urlVal = document.getElementById('sitemapInput').value.trim();
+  if (!urlVal || !urlVal.startsWith('http')) {
+    showToast('⚠️ Please enter a valid sitemap URL', 'error'); return;
+  }
+  const btn = document.getElementById('sitemapBtn');
+  const btnText = document.getElementById('sitemapBtnText');
+  const spinner = document.getElementById('sitemapSpinner');
+  btn.disabled = true;
+  btnText.style.display = 'none';
+  spinner.style.display = 'block';
+
+  try {
+    // Use allorigins proxy to bypass CORS
+    const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(urlVal);
+    const resp = await fetch(proxyUrl);
+    if (!resp.ok) throw new Error('Failed to fetch sitemap');
+    const data = await resp.json();
+    const xml = data.contents;
+
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(xml, 'text/xml');
+
+    // Support sitemap index & regular sitemap
+    let locs = [...doc.querySelectorAll('url > loc')].map(el => el.textContent.trim());
+    if (locs.length === 0) {
+      // Could be a sitemap index — show sub-sitemaps
+      const subs = [...doc.querySelectorAll('sitemap > loc')].map(el => el.textContent.trim());
+      if (subs.length > 0) {
+        showToast(`📋 Sitemap index found with ${subs.length} sub-sitemaps. Fetching...`, 'info');
+        // Fetch first 3 sub-sitemaps automatically
+        for (const sub of subs.slice(0, 3)) {
+          const subProxy = 'https://api.allorigins.win/get?url=' + encodeURIComponent(sub);
+          const subResp = await fetch(subProxy);
+          const subData = await subResp.json();
+          const subDoc = parser.parseFromString(subData.contents, 'text/xml');
+          const subLocs = [...subDoc.querySelectorAll('url > loc')].map(el => el.textContent.trim());
+          locs = locs.concat(subLocs);
+        }
+      }
+    }
+
+    if (locs.length === 0) { showToast('❌ No URLs found in sitemap', 'error'); return; }
+
+    // Merge with existing URLs (avoid duplicates)
+    const existing = document.getElementById('urlInput').value
+      .split('\n').map(u => u.trim()).filter(u => u.startsWith('http'));
+    const existingSet = new Set(existing);
+    const newUrls = locs.filter(u => !existingSet.has(u));
+    const merged = [...existing, ...newUrls].join('\n');
+    document.getElementById('urlInput').value = merged;
+    updateUrlCount();
+    analyzeUrls();
+    showToast(`✅ Imported ${newUrls.length} URLs from sitemap (${locs.length - newUrls.length} already present)`, 'success');
+  } catch(err) {
+    showToast('❌ Sitemap import failed: ' + err.message.substring(0, 50), 'error');
+  } finally {
+    btn.disabled = false;
+    btnText.style.display = 'inline';
+    spinner.style.display = 'none';
+  }
+}
+
+// ============================================================
+// URL VALIDATION & DUPLICATE GUARD
+// ============================================================
+function analyzeUrls() {
+  const raw = document.getElementById('urlInput').value
+    .split('\n').map(u => u.trim()).filter(u => u.length > 0);
+
+  if (raw.length === 0) {
+    document.getElementById('urlValidationBar').style.display = 'none';
+    return;
+  }
+
+  const seen = new Set();
+  let dupeCount = 0, invalidCount = 0;
+  const submittedSet = new Set(submissionHistory.filter(h => h.status === 'success').map(h => h.url));
+  let prevCount = 0;
+
+  raw.forEach(u => {
+    if (!u.startsWith('http')) { invalidCount++; return; }
+    if (seen.has(u)) { dupeCount++; return; }
+    seen.add(u);
+    if (submittedSet.has(u)) prevCount++;
+  });
+
+  const validUnique = seen.size;
+  const indexedCount = (window._indexedUrls || []).filter(u => seen.has(u)).length;
+
+  document.getElementById('uvValid').textContent = validUnique;
+  document.getElementById('uvDupe').textContent = dupeCount;
+  document.getElementById('uvIndexed').textContent = indexedCount;
+  document.getElementById('uvPrev').textContent = prevCount;
+  document.getElementById('urlValidationBar').style.display = 'flex';
+  document.getElementById('urlCount').textContent = validUnique;
+}
+
+function cleanUrls() {
+  const raw = document.getElementById('urlInput').value
+    .split('\n').map(u => u.trim()).filter(u => u.startsWith('http'));
+  const submittedSet = new Set(submissionHistory.filter(h => h.status === 'success').map(h => h.url));
+  const indexedUrls = new Set(window._indexedUrls || []);
+  const seen = new Set();
+  const cleaned = [];
+  raw.forEach(u => {
+    if (seen.has(u)) return; // remove duplicate
+    seen.add(u);
+    if (submittedSet.has(u)) return; // remove prev submitted
+    if (indexedUrls.has(u)) return; // remove already indexed
+    cleaned.push(u);
+  });
+  document.getElementById('urlInput').value = cleaned.join('\n');
+  analyzeUrls();
+  showToast(`🧹 Cleaned! ${raw.length - cleaned.length} URLs removed`, 'success');
+}
+
+// ============================================================
+// DUPLICATE SUBMISSION GUARD
+// ============================================================
+function checkDuplicateGuard(urls) {
+  const submittedSet = new Set(submissionHistory.filter(h => h.status === 'success').map(h => h.url));
+  const dupes = urls.filter(u => submittedSet.has(u));
+  return dupes;
+}
+
+// ============================================================
+// INDEX CHECKER (via Google site: search)
+// ============================================================
+let _indexCheckResults = {};
+window._indexedUrls = [];
+
+async function checkIndexStatus() {
+  const urls = getUrls();
+  if (urls.length === 0) { showToast('⚠️ No URLs to check', 'error'); return; }
+  if (urls.length > 20) { showToast('⚠️ Index check works best with 20 or fewer URLs at a time', 'error'); return; }
+
+  const btn = document.getElementById('indexCheckBtn');
+  btn.textContent = '⏳ Checking...';
+  btn.disabled = true;
+
+  const resultDiv = document.getElementById('indexCheckResult');
+  resultDiv.style.display = 'block';
+  resultDiv.innerHTML = `<div class="index-check-wrap">
+    <div class="index-check-title">🔍 Checking Google Index Status...</div>
+    ${urls.map(u => `<div class="ic-item" id="ic-${btoa(encodeURIComponent(u)).substring(0,10)}">
+      <span class="ic-url" title="${u}">${u}</span>
+      <span class="ic-status checking">⏳ checking</span>
+    </div>`).join('')}
+  </div>`;
+
+  _indexCheckResults = {};
+  window._indexedUrls = [];
+  let indexedCount = 0;
+
+  for (const url of urls) {
+    const id = 'ic-' + btoa(encodeURIComponent(url)).substring(0, 10);
+    const el = document.getElementById(id);
+    try {
+      // Use Google's site: search via allorigins to check if URL is indexed
+      const searchUrl = 'https://www.google.com/search?q=site:' + encodeURIComponent(url) + '&num=1';
+      const proxyUrl = 'https://api.allorigins.win/get?url=' + encodeURIComponent(searchUrl);
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const resp = await fetch(proxyUrl, { signal: controller.signal });
+      clearTimeout(timeoutId);
+      const data = await resp.json();
+      const html = data.contents || '';
+
+      // Check if Google returned any results for this exact URL
+      const isIndexed = html.includes('did not match any documents') === false &&
+                        (html.includes(url.replace(/^https?:\/\//, '')) || html.includes('result-stats'));
+
+      _indexCheckResults[url] = isIndexed;
+      if (isIndexed) { window._indexedUrls.push(url); indexedCount++; }
+
+      if (el) {
+        const btn = document.createElement('button');
+        btn.className = 'ic-remove-btn';
+        btn.title = 'Remove from list';
+        btn.textContent = '✕';
+        btn.addEventListener('click', () => { removeUrlFromInput(url); el.remove(); });
+        const urlSpan = document.createElement('span');
+        urlSpan.className = 'ic-url';
+        urlSpan.title = url;
+        urlSpan.textContent = url;
+        const statusSpan = document.createElement('span');
+        statusSpan.className = 'ic-status ' + (isIndexed ? 'indexed' : 'notindexed');
+        statusSpan.textContent = isIndexed ? '✅ Indexed' : '❌ Not indexed';
+        el.innerHTML = '';
+        el.appendChild(btn);
+        el.appendChild(urlSpan);
+        el.appendChild(statusSpan);
+      }
+    } catch(e) {
+      if (el) el.querySelector('.ic-status').textContent = '⚠️ timeout';
+    }
+    await sleep(600);
+  }
+
+  document.getElementById('uvIndexed').textContent = indexedCount;
+  document.getElementById('urlValidationBar').style.display = 'flex';
+  btn.textContent = '🔍 Check Index';
+  btn.disabled = false;
+  showToast(`🔍 Done! ${indexedCount}/${urls.length} already indexed in Google`, indexedCount > 0 ? 'error' : 'success');
+}
+
+function removeUrlFromInput(url) {
+  const lines = document.getElementById('urlInput').value
+    .split('\n').filter(u => u.trim() !== url);
+  document.getElementById('urlInput').value = lines.join('\n');
+  analyzeUrls();
 }
 
 // ============================================================
@@ -2127,12 +2463,49 @@ async function submitUrl(url, token, type) {
 async function startSubmit() {
   if (isRunning) return;
 
-  const urls = getUrls();
+  let urls = getUrls();
   if (urls.length === 0) { showToast('⚠️ No valid URLs found', 'error'); return; }
 
   const loadedKeys = keys.filter(k => k.keyData);
   if (loadedKeys.length === 0) { showToast('⚠️ Please upload JSON key file first', 'error'); return; }
 
+  // --- Duplicate Submission Guard ---
+  const dupes = checkDuplicateGuard(urls);
+  if (dupes.length > 0) {
+    const guardDiv = document.getElementById('guardWarning');
+    guardDiv.style.display = 'block';
+    guardDiv.innerHTML = `<div class="guard-warning">
+      ⚠️ <strong>${dupes.length} URL(s)</strong> were already successfully submitted before.
+      <button class="guard-skip-btn" onclick="proceedWithoutDupes()">Skip already submitted & continue</button>
+    </div>`;
+    window._pendingSubmitUrls = urls;
+    return; // pause until user decides
+  }
+
+  // --- Already Indexed Guard ---
+  const indexed = (window._indexedUrls || []).filter(u => urls.includes(u));
+  if (indexed.length > 0) {
+    urls = urls.filter(u => !indexed.includes(u));
+    showToast(`📌 Skipped ${indexed.length} already-indexed URL(s)`, 'info');
+    if (urls.length === 0) { showToast('⚠️ All URLs already indexed. Nothing to submit.', 'error'); return; }
+  }
+
+  await doSubmit(urls);
+}
+
+function proceedWithoutDupes() {
+  const allUrls = window._pendingSubmitUrls || [];
+  const submittedSet = new Set(submissionHistory.filter(h => h.status === 'success').map(h => h.url));
+  const indexed = new Set(window._indexedUrls || []);
+  const filtered = allUrls.filter(u => !submittedSet.has(u) && !indexed.has(u));
+  document.getElementById('guardWarning').style.display = 'none';
+  if (filtered.length === 0) { showToast('⚠️ No new URLs to submit', 'error'); return; }
+  showToast(`✅ Proceeding with ${filtered.length} new URLs`, 'success');
+  doSubmit(filtered);
+}
+
+async function doSubmit(urls) {
+  if (isRunning) return;
   isRunning = true;
   const btn = document.getElementById('submitBtn');
   btn.classList.add('loading');
